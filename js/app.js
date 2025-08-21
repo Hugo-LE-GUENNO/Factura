@@ -748,21 +748,19 @@ window.App = (function() {
          * Affiche les paramètres
          */
         showSettings: function() {
-            if (window.ConfigModule && window.ConfigModule.renderConfigUI) {
-                if (window.UIModule) {
-                    UIModule.modal.show({
-                        title: 'Configuration',
-                        content: '<div id="config-modal-content"></div>',
-                        size: 'large'
-                    });
-                    
-                    // Rendre la config dans la modale
-                    const container = document.getElementById('config-modal-content');
-                    if (container) {
-                        container.id = 'config-container';
-                        ConfigModule.renderConfigUI();
-                    }
-                }
+            if (window.ConfigModule) {
+                UIModule.modal.show({
+                    title: '⚙️ Configuration de l\'Application',
+                    content: '<div id="config-container" style="max-height: 70vh; overflow-y: auto;"></div>',
+                    size: 'large'
+                });
+                
+                // Attendre que la modal soit affichée, puis rendre la configuration
+                setTimeout(() => {
+                    ConfigModule.renderConfigUI();
+                }, 100);
+            } else {
+                UIModule.toast.error('Module Configuration non disponible');
             }
         },
         

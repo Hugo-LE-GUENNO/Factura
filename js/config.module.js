@@ -395,25 +395,141 @@ window.ConfigModule = (function() {
          * Génère l'interface de configuration
          */
         renderConfigUI: function() {
-            const container = document.getElementById('configContainer');
-            if (!container) return;
+            const container = document.getElementById('config-container');
+            if (!container) {
+                console.warn('Container config-container non trouvé');
+                return;
+            }
             
-            container.innerHTML = this.generateConfigHTML();
-            this.attachEventListeners();
-        },
-        
-        /**
-         * Génère le HTML de configuration
-         */
-        generateConfigHTML: function() {
-            return `
-                <div class="config-sections">
-                    ${this.generateMicroscopesSection()}
-                    ${this.generateServicesSection()}
-                    ${this.generateLaboratoriesSection()}
-                    ${this.generateTarifsSection()}
+            // HTML complet de l'interface de configuration
+            container.innerHTML = `
+                <div class="config-interface">
+                    <!-- Actions rapides -->
+                    <div class="config-quick-actions" style="display: flex; gap: 10px; margin-bottom: 20px; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 10px;">
+                        <button class="btn btn-primary btn-sm" onclick="ConfigModule.exportConfig()">
+                            📤 Exporter Config
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="ConfigModule.importConfig()">
+                            📥 Importer Config
+                        </button>
+                        <button class="btn btn-warning btn-sm" onclick="ConfigModule.reset()">
+                            🔄 Réinitialiser
+                        </button>
+                    </div>
+
+                    <!-- Onglets de configuration -->
+                    <div class="config-tabs">
+                        <div class="config-tabs-header" style="display: flex; border-bottom: 2px solid #e5e7eb; margin-bottom: 20px;">
+                            <button class="config-tab-btn active" onclick="ConfigModule.showConfigTab('microscopes')" data-tab="microscopes">
+                                🔬 Microscopes
+                            </button>
+                            <button class="config-tab-btn" onclick="ConfigModule.showConfigTab('services')" data-tab="services">
+                                🧪 Services
+                            </button>
+                            <button class="config-tab-btn" onclick="ConfigModule.showConfigTab('tarifs')" data-tab="tarifs">
+                                💰 Tarifs
+                            </button>
+                            <button class="config-tab-btn" onclick="ConfigModule.showConfigTab('laboratories')" data-tab="laboratories">
+                                🏛️ Laboratoires
+                            </button>
+                        </div>
+
+                        <!-- Contenu des onglets -->
+                        <div id="config-tab-microscopes" class="config-tab-content active">
+                            ${this.generateMicroscopesSection()}
+                        </div>
+
+                        <div id="config-tab-services" class="config-tab-content" style="display: none;">
+                            ${this.generateServicesSection()}
+                        </div>
+
+                        <div id="config-tab-tarifs" class="config-tab-content" style="display: none;">
+                            ${this.generateTarifsSection()}
+                        </div>
+
+                        <div id="config-tab-laboratories" class="config-tab-content" style="display: none;">
+                            ${this.generateLaboratoriesSection()}
+                        </div>
+                    </div>
                 </div>
+
+                <style>
+                    .config-interface { font-family: inherit; }
+                    .config-tab-btn {
+                        padding: 10px 15px;
+                        border: none;
+                        background: transparent;
+                        cursor: pointer;
+                        border-bottom: 3px solid transparent;
+                        transition: all 0.3s;
+                    }
+                    .config-tab-btn.active {
+                        border-bottom-color: #2563eb;
+                        color: #2563eb;
+                    }
+                    .config-tab-btn:hover {
+                        background: rgba(37, 99, 235, 0.1);
+                    }
+                    .config-section {
+                        margin-bottom: 30px;
+                        padding: 20px;
+                        border: 1px solid #e5e7eb;
+                        border-radius: 10px;
+                    }
+                    .config-list {
+                        display: grid;
+                        gap: 10px;
+                        margin-bottom: 15px;
+                    }
+                    .config-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 10px;
+                        background: #f9fafb;
+                        border-radius: 5px;
+                    }
+                    .config-item input {
+                        flex: 1;
+                        padding: 5px 10px;
+                        border: 1px solid #d1d5db;
+                        border-radius: 5px;
+                    }
+                    .config-item button {
+                        padding: 5px 10px;
+                        border: none;
+                        background: #ef4444;
+                        color: white;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+                    .tarifs-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 15px;
+                    }
+                    .tarifs-table th,
+                    .tarifs-table td {
+                        padding: 10px;
+                        text-align: left;
+                        border-bottom: 1px solid #e5e7eb;
+                    }
+                    .tarifs-table th {
+                        background: #f3f4f6;
+                        font-weight: 600;
+                    }
+                    .tarifs-table input {
+                        width: 80px;
+                        padding: 5px;
+                        border: 1px solid #d1d5db;
+                        border-radius: 3px;
+                        text-align: center;
+                    }
+                </style>
             `;
+            
+            this.attachEventListeners();
+            console.log('✅ Interface de configuration rendue');
         },
         
         generateMicroscopesSection: function() {
@@ -659,7 +775,183 @@ window.ConfigModule = (function() {
             a.download = `config_${new Date().toISOString().slice(0,10)}.json`;
             a.click();
         },
-        
+        showConfigTab: function(tabName) {
+    // Masquer tous les onglets
+    document.querySelectorAll('.config-tab-content').forEach(tab => {
+        tab.style.display = 'none';
+    });
+    document.querySelectorAll('.config-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Afficher l'onglet sélectionné
+    const tab = document.getElementById(`config-tab-${tabName}`);
+    const btn = document.querySelector(`[data-tab="${tabName}"]`);
+    
+    if (tab) tab.style.display = 'block';
+    if (btn) btn.classList.add('active');
+},
+
+generateMicroscopesSection: function() {
+    const microscopes = configState.microscopes || [];
+    return `
+        <div class="config-section">
+            <h3>🔬 Gestion des Microscopes</h3>
+            <div class="config-list">
+                ${microscopes.map((m, i) => `
+                    <div class="config-item">
+                        <span>🔬</span>
+                        <input type="text" value="${m}" onchange="ConfigModule.updateMicroscope(${i}, this.value)">
+                        <button onclick="ConfigModule.removeMicroscope('${m}')" title="Supprimer">🗑️</button>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn btn-primary" onclick="ConfigModule.addMicroscope()">
+                ➕ Ajouter un Microscope
+            </button>
+        </div>
+    `;
+},
+
+generateServicesSection: function() {
+    const services = configState.manipulations || [];
+    return `
+        <div class="config-section">
+            <h3>🧪 Gestion des Services</h3>
+            <div class="config-list">
+                ${services.map((s, i) => `
+                    <div class="config-item">
+                        <span>${s.icon || '🔬'}</span>
+                        <input type="text" value="${s.name}" onchange="ConfigModule.updateService(${i}, this.value)">
+                        <button onclick="ConfigModule.removeService('${s.name}')" title="Supprimer">🗑️</button>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn btn-primary" onclick="ConfigModule.addService()">
+                ➕ Ajouter un Service
+            </button>
+        </div>
+    `;
+},
+
+generateLaboratoriesSection: function() {
+    const labs = configState.internalLaboratories || [];
+    return `
+        <div class="config-section">
+            <h3>🏛️ Laboratoires Internes</h3>
+            <p><small>Ces laboratoires seront automatiquement classés comme "internes"</small></p>
+            <div class="config-list">
+                ${labs.map((lab, i) => `
+                    <div class="config-item">
+                        <span>🏛️</span>
+                        <input type="text" value="${lab}" onchange="ConfigModule.updateLaboratory(${i}, this.value)">
+                        <button onclick="ConfigModule.removeLaboratory('${lab}')" title="Supprimer">🗑️</button>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn btn-primary" onclick="ConfigModule.addLaboratory()">
+                ➕ Ajouter un Laboratoire
+            </button>
+        </div>
+    `;
+},
+
+generateTarifsSection: function() {
+    return `
+        <div class="config-section">
+            <h3>💰 Grille Tarifaire</h3>
+            <p><small>Tarifs en euros par session/échantillon</small></p>
+            <table class="tarifs-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Interne (€)</th>
+                        <th>Externe (€)</th>
+                        <th>Privé (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${this.generateTarifsRows()}
+                </tbody>
+            </table>
+        </div>
+    `;
+},
+
+/**
+ * 4. Ajoutez ces méthodes utilitaires :
+ */
+
+addMicroscope: function() {
+    const name = prompt('Nom du nouveau microscope :');
+    if (name && !configState.microscopes.includes(name)) {
+        configState.microscopes.push(name);
+        configState.tarifs.microscopes[name] = { interne: 0, externe: 0, prive: 0 };
+        this.save();
+        this.renderConfigUI();
+        UIModule.toast.success(`Microscope "${name}" ajouté`);
+    }
+},
+
+removeMicroscope: function(name) {
+    if (confirm(`Supprimer le microscope "${name}" ?`)) {
+        const index = configState.microscopes.indexOf(name);
+        if (index > -1) {
+            configState.microscopes.splice(index, 1);
+            delete configState.tarifs.microscopes[name];
+            this.save();
+            this.renderConfigUI();
+            UIModule.toast.success(`Microscope "${name}" supprimé`);
+        }
+    }
+},
+
+addService: function() {
+    const name = prompt('Nom du nouveau service :');
+    if (name && !configState.manipulations.find(m => m.name === name)) {
+        const icon = prompt('Icône (optionnel) :', '🔬');
+        configState.manipulations.push({ name, icon: icon || '🔬' });
+        configState.tarifs.services[name] = { interne: 0, externe: 0, prive: 0 };
+        this.save();
+        this.renderConfigUI();
+        UIModule.toast.success(`Service "${name}" ajouté`);
+    }
+},
+
+removeService: function(name) {
+    if (confirm(`Supprimer le service "${name}" ?`)) {
+        const index = configState.manipulations.findIndex(m => m.name === name);
+        if (index > -1) {
+            configState.manipulations.splice(index, 1);
+            delete configState.tarifs.services[name];
+            this.save();
+            this.renderConfigUI();
+            UIModule.toast.success(`Service "${name}" supprimé`);
+        }
+    }
+},
+
+addLaboratory: function() {
+    const code = prompt('Code du laboratoire :');
+    if (code && !configState.internalLaboratories.includes(code.toUpperCase())) {
+        configState.internalLaboratories.push(code.toUpperCase());
+        this.save();
+        this.renderConfigUI();
+        UIModule.toast.success(`Laboratoire "${code}" ajouté`);
+    }
+},
+
+removeLaboratory: function(code) {
+    if (confirm(`Supprimer le laboratoire "${code}" ?`)) {
+        const index = configState.internalLaboratories.indexOf(code);
+        if (index > -1) {
+            configState.internalLaboratories.splice(index, 1);
+            this.save();
+            this.renderConfigUI();
+            UIModule.toast.success(`Laboratoire "${code}" supprimé`);
+        }
+    }
+},
         importConfig: function() {
             const input = document.createElement('input');
             input.type = 'file';
