@@ -507,23 +507,30 @@
                 }, 300);
             }
         },
-        
-        // AJOUTEZ AUSSI cette méthode après hideLoader :
-        showInterface() {
-            // Forcer l'affichage de l'interface
+// CORRECTION SYNTAXE - À ajouter après la section AppInitializer
+
+        /**
+         * Masque le loader
+         */
+        hideLoader() {
+            const loader = document.getElementById('app-loader');
             const appContainer = document.getElementById('app-container');
-            const startupScreen = document.getElementById('startup-screen');
             
-            if (appContainer) {
-                appContainer.classList.remove('hidden');
-            }
-            
-            if (startupScreen) {
-                startupScreen.style.display = 'flex';
-                console.log('✅ Écran de démarrage affiché');
+            if (loader) {
+                loader.classList.add('fade-out');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    loader.classList.remove('fade-out');
+                    
+                    // CORRECTION : Afficher le conteneur principal
+                    if (appContainer) {
+                        appContainer.classList.remove('hidden');
+                        console.log('✅ Interface débloquée');
+                    }
+                }, 300);
             }
         },
-        
+
         /**
          * Affiche une erreur
          */
@@ -546,7 +553,7 @@
                 `;
             }
         },
-        
+
         /**
          * Appelé quand l'app est prête
          */
@@ -566,7 +573,167 @@
                 window.onAppReady();
             }
         },
-        
+
+        /**
+         * Affiche le loader
+         */
+        showLoader(message = 'Chargement...') {
+            let loader = document.getElementById('app-loader');
+            if (!loader) {
+                loader = document.createElement('div');
+                loader.id = 'app-loader';
+                loader.className = 'app-loader';
+                document.body.appendChild(loader);
+            }
+            
+            loader.innerHTML = `
+                <div class="loader-content">
+                    <div class="loader-spinner"></div>
+                    <p>${message}</p>
+                    <small>v${INIT_CONFIG.version}</small>
+                </div>
+            `;
+            
+            loader.style.display = 'flex';
+        },
+
+        /**
+         * Vérifie l'environnement
+         */
+        checkEnvironment() {
+            // Vérifier la compatibilité du navigateur
+            const browserCheck = EnvironmentDetector.checkBrowserCompatibility();
+            if (!browserCheck.compatible) {
+                throw new Error(browserCheck.message);
+            }
+            if (browserCheck.warning) {
+                console.warn('⚠️ Navigateur non testé, des problèmes peuvent survenir');
+            }
+            
+            // Vérifier les fonctionnalités requises
+            const featureCheck = EnvironmentDetector.checkRequiredFeatures();
+            if (!featureCheck.supported) {
+                throw new Error(`Fonctionnalités manquantes: ${featureCheck.missing.join(', ')}`);
+            }
+            
+            // Mode développement
+            if (EnvironmentDetector.isDevelopment()) {
+                INIT_CONFIG.environment = 'development';
+                console.log('🔧 Mode développement activé');
+            }
+            
+            // Informations système
+            if (INIT_CONFIG.features.debug) {
+                console.log('📊 Informations système:', EnvironmentDetector.getSystemInfo());
+            }
+        },
+
+        /**
+         * Initialise l'application principale
+         */
+        async initializeApp() {
+            // Initialiser App.js si disponible
+            if (window.App && typeof window.App.init === 'function') {
+                await window.App.init();
+            } else {
+                console.warn('⚠️ App.js non disponible, initialisation manuelle des modules');
+                
+                // Initialisation manuelle des modules
+                if (window.Core) await this.initModule('Core');
+                if (window.UIModule) await this.initModule('UIModule');
+                if (window.ConfigModule) await this.initModule('ConfigModule');
+                if (window.TeamsModule) await this.initModule('TeamsModule');
+                if (window.BillingModule) await this.initModule('BillingModule');
+            }
+        },
+
+        /**
+         * Initialise un module individuellement
+         */
+        async initModule(moduleName) {
+            try {
+                const module = window[moduleName];
+                if (module && typeof module.init === 'function') {
+                    await module.init();
+                    console.log(`✅ ${moduleName} initialisé`);
+                }
+            } catch (error) {
+                console.error(`❌ Erreur initialisation ${moduleName}:`, error);
+            }
+        },
+
+        /**
+         * Configure l'environnement
+         */
+        setupEnvironment() {
+            // Mode debug
+            if (INIT_CONFIG.features.debug || INIT_CONFIG.environment === 'development') {
+                window.DEBUG = true;
+                console.log('🔧 Mode debug activé globalement');
+                
+                // Exposer les modules pour le debug
+                window.__APP__ = {
+                    config: INIT_CONFIG,
+                    modules: ModuleLoader.loadedModules,
+                    env: EnvironmentDetector.getSystemInfo()
+                };
+            }
+            
+            // Thème
+            const savedTheme = localStorage.getItem('app_theme');
+            if (savedTheme === 'dark' || 
+                (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Désactiver les transitions au chargement
+            document.body.classList.add('no-transitions');
+            setTimeout(() => {
+                document.body.classList.remove('no-transitions');
+            }, 100);
+            
+            // Gestion des erreurs globales
+            this.setupErrorHandling();
+            
+            // Service Worker (si disponible)
+            this.setupServiceWorker();
+        },
+
+        /**
+         * Configure la gestion d'erreurs
+         */
+        setupErrorHandling() {
+            window.addEventListener('error', (event) => {
+                console.error('Erreur globale:', event.error);
+                
+                if (INIT_CONFIG.environment === 'production') {
+                    event.preventDefault();
+                    this.trackError(event.error);
+                }
+            });
+            
+            window.addEventListener('unhandledrejection', (event) => {
+                console.error('Promise rejetée:', event.reason);
+                
+                if (INIT_CONFIG.environment === 'production') {
+                    event.preventDefault();
+                    this.trackError(event.reason);
+                }
+            });
+        },
+
+        /**
+         * Configure le Service Worker
+         */
+        setupServiceWorker() {
+            if ('serviceWorker' in navigator && INIT_CONFIG.environment === 'production') {
+                navigator.serviceWorker.register('/sw.js').then(
+                    (registration) => console.log('✅ Service Worker enregistré'),
+                    (error) => console.warn('⚠️ Service Worker non enregistré:', error)
+                );
+            }
+        },
+
         /**
          * Track des événements (placeholder)
          */
@@ -586,8 +753,8 @@
                 // Intégration avec Sentry, Rollbar, etc.
             }
         }
-    };
-    
+    }; // <-- CETTE ACCOLADE FERME AppInitializer
+
     // =========================================
     // DÉMARRAGE
     // =========================================
@@ -610,4 +777,4 @@
         getSystemInfo: () => EnvironmentDetector.getSystemInfo()
     };
     
-})();
+})(); // <-- CETTE ACCOLADE FERME TOUT LE MODULE
