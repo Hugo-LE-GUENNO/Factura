@@ -755,12 +755,113 @@ window.App = (function() {
                     size: 'large'
                 });
                 
-                // Attendre que la modal soit affichée, puis rendre la configuration
+                // Attendre que la modal soit affichée, puis créer l'interface
                 setTimeout(() => {
-                    ConfigModule.renderConfigUI();
+                    const container = document.querySelector('#config-container');
+                    
+                    if (!container) {
+                        console.warn('❌ Container config-container non trouvé');
+                        return;
+                    }
+                    
+                    const config = ConfigModule.getConfig();
+                    
+                    container.innerHTML = `
+                        <div style="padding: 20px; font-family: Arial, sans-serif;">
+                            <h3 style="color: #2563eb; margin-bottom: 20px;">⚙️ Configuration de l'Application</h3>
+                            
+                            <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                                <h4 style="color: #1f2937; margin-bottom: 15px;">🔬 Microscopes (${config.microscopes?.length || 0})</h4>
+                                <ul style="margin: 10px 0;">
+                                    ${(config.microscopes || []).map(m => `
+                                        <li style="padding: 5px 0; border-bottom: 1px solid #f3f4f6;">
+                                            <strong>${m}</strong>
+                                            <span style="color: #6b7280; margin-left: 10px;">
+                                                Interne: ${config.tarifs?.microscopes?.[m]?.interne || 0}€ | 
+                                                Externe: ${config.tarifs?.microscopes?.[m]?.externe || 0}€ | 
+                                                Privé: ${config.tarifs?.microscopes?.[m]?.prive || 0}€
+                                            </span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                                <button onclick="App.addMicroscope()" style="background: #2563eb; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">➕ Ajouter Microscope</button>
+                            </div>
+                            
+                            <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                                <h4 style="color: #1f2937; margin-bottom: 15px;">🧪 Services/Manipulations (${config.manipulations?.length || 0})</h4>
+                                <ul style="margin: 10px 0;">
+                                    ${(config.manipulations || []).map(s => `
+                                        <li style="padding: 5px 0; border-bottom: 1px solid #f3f4f6;">
+                                            <strong>${s.icon || '🔬'} ${s.name}</strong>
+                                            <span style="color: #6b7280; margin-left: 10px;">
+                                                Interne: ${config.tarifs?.services?.[s.name]?.interne || 0}€ | 
+                                                Externe: ${config.tarifs?.services?.[s.name]?.externe || 0}€ | 
+                                                Privé: ${config.tarifs?.services?.[s.name]?.prive || 0}€
+                                            </span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                                <button onclick="App.addService()" style="background: #10b981; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">➕ Ajouter Service</button>
+                            </div>
+                            
+                            <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                                <h4 style="color: #1f2937; margin-bottom: 15px;">🏛️ Laboratoires Internes (${config.internalLaboratories?.length || 0})</h4>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                    ${(config.internalLaboratories || []).map(lab => `
+                                        <span style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 15px; font-size: 14px;">${lab}</span>
+                                    `).join('')}
+                                </div>
+                                <button onclick="App.addLab()" style="background: #f59e0b; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">➕ Ajouter Laboratoire</button>
+                            </div>
+                            
+                            <div style="text-align: center; padding: 20px; background: #f9fafb; border-radius: 8px;">
+                                <button onclick="ConfigModule.exportConfig()" style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 0 5px;">📤 Exporter</button>
+                                <button onclick="App.resetConfig()" style="background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 0 5px;">🔄 Réinitialiser</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    console.log('✅ Interface de configuration créée');
                 }, 100);
             } else {
                 UIModule.toast.error('Module Configuration non disponible');
+            }
+        
+        },
+
+        addMicroscope: function() {
+            const name = prompt('Nom du microscope:');
+            if (name) {
+                ConfigModule.microscopes.add(name, { interne: 50, externe: 100, prive: 150 });
+                this.showSettings(); // Rafraîchir l'interface
+                UIModule.toast.success(`Microscope "${name}" ajouté`);
+            }
+        },
+
+        addService: function() {
+            const name = prompt('Nom du service:');
+            if (name) {
+                const icon = prompt('Icône (optionnel):', '🔬');
+                ConfigModule.services.add(name, icon, { interne: 30, externe: 60, prive: 90 });
+                this.showSettings(); // Rafraîchir l'interface
+                UIModule.toast.success(`Service "${name}" ajouté`);
+            }
+        },
+
+        addLab: function() {
+            const code = prompt('Code du laboratoire:');
+            if (code) {
+                ConfigModule.laboratories.add(code);
+                this.showSettings(); // Rafraîchir l'interface
+                UIModule.toast.success(`Laboratoire "${code}" ajouté`);
+            }
+        },
+
+        resetConfig: function() {
+            if (confirm('Réinitialiser toute la configuration ?')) {
+                ConfigModule.reset();
+                this.showSettings(); // Rafraîchir l'interface
+                UIModule.toast.success('Configuration réinitialisée');
             }
         },
         
