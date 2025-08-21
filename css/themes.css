@@ -1,0 +1,466 @@
+/**
+ * THEME.CSS - Gestion des thèmes et personnalisations
+ * Mode clair/sombre et thèmes personnalisés
+ */
+
+/* =========================================
+   THÈME CLAIR (PAR DÉFAUT)
+   ========================================= */
+body {
+    --theme-bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --theme-card-bg: white;
+    --theme-card-border: var(--gray-200);
+    --theme-header-bg: rgba(255, 255, 255, 0.95);
+    --theme-sidebar-bg: var(--gray-50);
+    --theme-hover-bg: var(--gray-100);
+    --theme-active-bg: var(--primary-alpha);
+    --theme-code-bg: var(--gray-100);
+    --theme-scrollbar-track: var(--gray-200);
+    --theme-scrollbar-thumb: var(--gray-400);
+}
+
+/* =========================================
+   THÈME SOMBRE
+   ========================================= */
+body.dark-mode {
+    --theme-bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --theme-card-bg: var(--gray-800);
+    --theme-card-border: var(--gray-700);
+    --theme-header-bg: rgba(31, 41, 55, 0.95);
+    --theme-sidebar-bg: var(--gray-900);
+    --theme-hover-bg: var(--gray-700);
+    --theme-active-bg: rgba(37, 99, 235, 0.2);
+    --theme-code-bg: var(--gray-900);
+    --theme-scrollbar-track: var(--gray-800);
+    --theme-scrollbar-thumb: var(--gray-600);
+}
+
+/* =========================================
+   ARRIÈRE-PLANS THÉMATIQUES
+   ========================================= */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--theme-bg-gradient);
+    z-index: -1;
+}
+
+/* Pattern animé optionnel */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, transparent 50%, rgba(255, 255, 255, 0.1) 50.5%),
+        radial-gradient(circle at 80% 20%, transparent 50%, rgba(255, 255, 255, 0.1) 50.5%),
+        radial-gradient(circle at 40% 40%, transparent 50%, rgba(255, 255, 255, 0.05) 50.5%);
+    background-size: 100px 100px;
+    animation: backgroundShift 30s ease infinite;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes backgroundShift {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-20px, 10px); }
+    50% { transform: translate(10px, -20px); }
+    75% { transform: translate(-10px, -10px); }
+}
+
+body.dark-mode::after {
+    opacity: 0.1;
+}
+
+/* =========================================
+   COMPOSANTS THÉMATIQUES
+   ========================================= */
+
+/* Header global avec effet glassmorphism */
+.global-header {
+    background: var(--theme-header-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--theme-card-border);
+    transition: all var(--transition);
+}
+
+/* Cards avec ombres thématiques */
+.card,
+.modal-content,
+.form-section {
+    background: var(--theme-card-bg);
+    border-color: var(--theme-card-border);
+}
+
+body:not(.dark-mode) .card {
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body.dark-mode .card {
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.3),
+        0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet de survol adaptatif */
+.card:hover,
+.team-card:hover,
+.config-item:hover {
+    background: var(--theme-hover-bg);
+}
+
+/* =========================================
+   ANIMATIONS THÉMATIQUES
+   ========================================= */
+
+/* Pulse lumineux pour le mode clair */
+body:not(.dark-mode) .btn-primary {
+    position: relative;
+    overflow: visible;
+}
+
+body:not(.dark-mode) .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: pulseLight 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseLight {
+    0% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+/* Glow effect pour le mode sombre */
+body.dark-mode .btn-primary:hover {
+    box-shadow: 
+        0 0 20px rgba(37, 99, 235, 0.5),
+        0 0 40px rgba(37, 99, 235, 0.3);
+}
+
+/* =========================================
+   SCROLLBARS PERSONNALISÉES
+   ========================================= */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--theme-scrollbar-track);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--theme-scrollbar-thumb);
+    border-radius: 5px;
+    transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--theme-scrollbar-thumb) var(--theme-scrollbar-track);
+}
+
+/* =========================================
+   TRANSITIONS DE THÈME
+   ========================================= */
+* {
+    transition: 
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+}
+
+/* Éviter les transitions au chargement */
+body.no-transitions * {
+    transition: none !important;
+}
+
+/* =========================================
+   ICÔNES DE THÈME
+   ========================================= */
+.theme-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--theme-hover-bg);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+    background: var(--theme-active-bg);
+    transform: rotate(180deg);
+}
+
+.theme-icon-sun,
+.theme-icon-moon {
+    position: absolute;
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+body:not(.dark-mode) .theme-icon-sun {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+body:not(.dark-mode) .theme-icon-moon {
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+body.dark-mode .theme-icon-sun {
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+body.dark-mode .theme-icon-moon {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+/* =========================================
+   COULEURS D'ACCENTUATION
+   ========================================= */
+
+/* Stats cards avec gradients thématiques */
+body:not(.dark-mode) .stat-card:nth-child(1) {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+body:not(.dark-mode) .stat-card:nth-child(2) {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+body:not(.dark-mode) .stat-card:nth-child(3) {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+body:not(.dark-mode) .stat-card:nth-child(4) {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+body.dark-mode .stat-card {
+    background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.2), 
+        rgba(118, 75, 162, 0.2));
+    border: 1px solid var(--theme-card-border);
+}
+
+/* =========================================
+   EFFETS SPÉCIAUX
+   ========================================= */
+
+/* Effet de lueur pour les éléments actifs */
+.tab-button.active {
+    position: relative;
+}
+
+body:not(.dark-mode) .tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent,
+        var(--primary-color),
+        transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Néon effect pour dark mode */
+body.dark-mode .btn-primary {
+    text-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+body.dark-mode .stat-value {
+    text-shadow: 0 0 20px currentColor;
+}
+
+/* =========================================
+   MISE EN ÉVIDENCE
+   ========================================= */
+
+/* Highlight des nouveaux éléments */
+.highlight-new {
+    animation: highlightPulse 1s ease;
+}
+
+@keyframes highlightPulse {
+    0% {
+        background: var(--warning-alpha);
+        transform: scale(1);
+    }
+    50% {
+        background: var(--warning-alpha);
+        transform: scale(1.02);
+    }
+    100% {
+        background: transparent;
+        transform: scale(1);
+    }
+}
+
+/* =========================================
+   ADAPTATIONS POUR L'IMPRESSION
+   ========================================= */
+@media print {
+    body::before,
+    body::after {
+        display: none;
+    }
+    
+    body,
+    body.dark-mode {
+        background: white;
+        color: black;
+    }
+    
+    .card,
+    .modal-content {
+        background: white;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+}
+
+/* =========================================
+   PRÉFÉRENCES SYSTÈME
+   ========================================= */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-mode) {
+        --theme-bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --theme-card-bg: var(--gray-800);
+        --theme-card-border: var(--gray-700);
+        --theme-header-bg: rgba(31, 41, 55, 0.95);
+        --theme-sidebar-bg: var(--gray-900);
+        --theme-hover-bg: var(--gray-700);
+        --theme-active-bg: rgba(37, 99, 235, 0.2);
+    }
+}
+
+/* =========================================
+   MODES DE CONTRASTE
+   ========================================= */
+
+/* Mode haut contraste */
+body.high-contrast {
+    --primary-color: #0033cc;
+    --secondary-color: #008000;
+    --danger-color: #cc0000;
+    --text-primary: #000000;
+    --bg-primary: #ffffff;
+    --border-color: #000000;
+}
+
+body.high-contrast * {
+    font-weight: 500 !important;
+    letter-spacing: 0.5px;
+}
+
+/* Mode daltonien */
+body.colorblind-mode {
+    --secondary-color: #0088cc;
+    --danger-color: #cc6600;
+    --warning-color: #9966cc;
+}
+
+/* =========================================
+   ANIMATIONS DE CHARGEMENT THÉMATIQUES
+   ========================================= */
+.startup-screen {
+    background: var(--theme-bg-gradient);
+    position: relative;
+}
+
+.startup-screen::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 70%
+    );
+    animation: rotateGradient 10s linear infinite;
+}
+
+@keyframes rotateGradient {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* =========================================
+   PERSONNALISATIONS AVANCÉES
+   ========================================= */
+
+/* Thème violet */
+body.theme-purple {
+    --primary-color: #8b5cf6;
+    --primary-dark: #7c3aed;
+    --primary-light: #a78bfa;
+    --theme-bg-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+/* Thème vert */
+body.theme-green {
+    --primary-color: #10b981;
+    --primary-dark: #059669;
+    --primary-light: #34d399;
+    --theme-bg-gradient: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+}
+
+/* Thème orange */
+body.theme-orange {
+    --primary-color: #f97316;
+    --primary-dark: #ea580c;
+    --primary-light: #fb923c;
+    --theme-bg-gradient: linear-gradient(135deg, #f97316 0%, #f43f5e 100%);
+}
