@@ -1,0 +1,445 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-20",
+  "description": "Configuration par défaut pour l'Interface de Facturation IMM",
+  
+  "config": {
+    "application": {
+      "name": "Interface de Facturation - IMM Microscopy Facility",
+      "version": "1.0.0",
+      "language": "fr-FR",
+      "currency": "EUR",
+      "currencySymbol": "€",
+      "dateFormat": "DD/MM/YYYY",
+      "timeFormat": "HH:mm",
+      "timezone": "Europe/Paris"
+    },
+    
+    "company": {
+      "name": "CNRS - IMM FR 3479",
+      "fullName": "Institut de Microbiologie de la Méditerranée",
+      "type": "Plateforme de Microscopie",
+      "address": {
+        "street": "31, Chemin Joseph-Aiguier",
+        "postalCode": "13402",
+        "city": "MARSEILLE CEDEX 20",
+        "country": "France"
+      },
+      "contact": {
+        "phone": "+33 4 91 16 40 23",
+        "fax": "+33 4 91 71 21 24",
+        "email": "microscopy@imm.cnrs.fr",
+        "website": "https://www.imm.cnrs.fr"
+      },
+      "legal": {
+        "siret": "180 089 013 00132",
+        "ape": "7219Z",
+        "vatNumber": "FR 82 180089013",
+        "vatRate": 0.20
+      },
+      "billing": {
+        "iban": "FR76 1007 1130 0000 0010 0474 235",
+        "bic": "TRPUFRP1",
+        "domiciliation": "TP Marseille"
+      }
+    },
+    
+    "microscopes": [
+      {
+        "id": "tecnai-200",
+        "name": "Tecnai 200 KV",
+        "type": "TEM",
+        "manufacturer": "FEI",
+        "location": "Salle 101",
+        "status": "active",
+        "bookingUnit": "session",
+        "sessionDuration": 120,
+        "description": "Microscope électronique à transmission 200kV"
+      },
+      {
+        "id": "tecnai-200-cryo",
+        "name": "Tecnai 200 KV CRYO",
+        "type": "TEM-Cryo",
+        "manufacturer": "FEI",
+        "location": "Salle 102",
+        "status": "active",
+        "bookingUnit": "session",
+        "sessionDuration": 180,
+        "description": "Microscope électronique à transmission avec système cryo"
+      },
+      {
+        "id": "confocal-olympus",
+        "name": "Confocal Olympus FV1000",
+        "type": "Confocal",
+        "manufacturer": "Olympus",
+        "location": "Salle 201",
+        "status": "active",
+        "bookingUnit": "session",
+        "sessionDuration": 60,
+        "description": "Microscope confocal à balayage laser"
+      },
+      {
+        "id": "tescan-vega3",
+        "name": "Tescan VEGA3",
+        "type": "SEM",
+        "manufacturer": "Tescan",
+        "location": "Salle 103",
+        "status": "active",
+        "bookingUnit": "session",
+        "sessionDuration": 90,
+        "description": "Microscope électronique à balayage"
+      },
+      {
+        "id": "axio-vert",
+        "name": "Axio Vert 200M",
+        "type": "Fluorescence",
+        "manufacturer": "Zeiss",
+        "location": "Salle 203",
+        "status": "active",
+        "bookingUnit": "session",
+        "sessionDuration": 60,
+        "description": "Microscope à fluorescence inversé"
+      },
+      {
+        "id": "omx-sim",
+        "name": "OMX SIM",
+        "type": "Super-résolution",
+        "manufacturer": "GE Healthcare",
+        "location": "Salle 204",
+        "status": "active",
+        "bookingUnit": "session",
+        "sessionDuration": 120,
+        "description": "Microscope de super-résolution"
+      }
+    ],
+    
+    "manipulations": [
+      {
+        "id": "negative-staining",
+        "name": "Negative staining",
+        "icon": "💧",
+        "category": "Préparation TEM",
+        "unit": "échantillon",
+        "estimatedTime": 30,
+        "description": "Coloration négative pour microscopie électronique"
+      },
+      {
+        "id": "prep-classique",
+        "name": "Préparation classique",
+        "icon": "🧪",
+        "category": "Préparation",
+        "unit": "échantillon",
+        "estimatedTime": 120,
+        "description": "Préparation standard d'échantillons"
+      },
+      {
+        "id": "cryofixation",
+        "name": "Cryofixation",
+        "icon": "❄️",
+        "category": "Cryo",
+        "unit": "échantillon",
+        "estimatedTime": 60,
+        "description": "Fixation cryogénique haute pression"
+      },
+      {
+        "id": "cryovitrification",
+        "name": "Cryovitrification",
+        "icon": "🧊",
+        "category": "Cryo",
+        "unit": "grille",
+        "estimatedTime": 45,
+        "description": "Vitrification pour cryo-microscopie"
+      },
+      {
+        "id": "ultramicrotomie",
+        "name": "Ultramicrotomie",
+        "icon": "🔪",
+        "category": "Coupe",
+        "unit": "bloc",
+        "estimatedTime": 90,
+        "description": "Coupes ultra-fines"
+      },
+      {
+        "id": "immunomarquage",
+        "name": "Immunomarquage",
+        "icon": "🏷️",
+        "category": "Marquage",
+        "unit": "échantillon",
+        "estimatedTime": 240,
+        "description": "Marquage immunologique"
+      },
+      {
+        "id": "metallisation",
+        "name": "Métallisation",
+        "icon": "⚡",
+        "category": "Préparation SEM",
+        "unit": "échantillon",
+        "estimatedTime": 20,
+        "description": "Métallisation pour MEB"
+      },
+      {
+        "id": "analyse-image",
+        "name": "Analyse d'image",
+        "icon": "📊",
+        "category": "Analyse",
+        "unit": "heure",
+        "estimatedTime": 60,
+        "description": "Traitement et analyse d'images"
+      }
+    ],
+    
+    "tarifs": {
+      "microscopes": {
+        "Tecnai 200 KV": {
+          "interne": 60,
+          "externe": 120,
+          "prive": 180
+        },
+        "Tecnai 200 KV CRYO": {
+          "interne": 80,
+          "externe": 160,
+          "prive": 240
+        },
+        "Confocal Olympus FV1000": {
+          "interne": 45,
+          "externe": 90,
+          "prive": 135
+        },
+        "Tescan VEGA3": {
+          "interne": 35,
+          "externe": 70,
+          "prive": 105
+        },
+        "Axio Vert 200M": {
+          "interne": 10,
+          "externe": 20,
+          "prive": 30
+        },
+        "OMX SIM": {
+          "interne": 50,
+          "externe": 100,
+          "prive": 150
+        }
+      },
+      "services": {
+        "Negative staining": {
+          "interne": 30,
+          "externe": 60,
+          "prive": 90
+        },
+        "Préparation classique": {
+          "interne": 50,
+          "externe": 100,
+          "prive": 150
+        },
+        "Cryofixation": {
+          "interne": 75,
+          "externe": 150,
+          "prive": 225
+        },
+        "Cryovitrification": {
+          "interne": 100,
+          "externe": 200,
+          "prive": 300
+        },
+        "Ultramicrotomie": {
+          "interne": 40,
+          "externe": 80,
+          "prive": 120
+        },
+        "Immunomarquage": {
+          "interne": 60,
+          "externe": 120,
+          "prive": 180
+        },
+        "Métallisation": {
+          "interne": 20,
+          "externe": 40,
+          "prive": 60
+        },
+        "Analyse d'image": {
+          "interne": 50,
+          "externe": 100,
+          "prive": 150
+        }
+      }
+    },
+    
+    "internalLaboratories": [
+      "BIP",
+      "LCB",
+      "IGS",
+      "LISM",
+      "IMM",
+      "AFMB",
+      "IBDM",
+      "CIML"
+    ],
+    
+    "externalInstitutions": [
+      {
+        "code": "AMU",
+        "name": "Aix-Marseille Université",
+        "type": "Université"
+      },
+      {
+        "code": "CEA",
+        "name": "Commissariat à l'Énergie Atomique",
+        "type": "Organisme public"
+      },
+      {
+        "code": "INSERM",
+        "name": "Institut National de la Santé et de la Recherche Médicale",
+        "type": "Organisme public"
+      },
+      {
+        "code": "INRAE",
+        "name": "Institut National de Recherche pour l'Agriculture",
+        "type": "Organisme public"
+      },
+      {
+        "code": "IRD",
+        "name": "Institut de Recherche pour le Développement",
+        "type": "Organisme public"
+      }
+    ],
+    
+    "predefinedTeams": [
+      "BIP BRUGNA",
+      "BIP GRIMALDI",
+      "BIP INFOSSI",
+      "BIP JOURLIN",
+      "BIP MAGALON",
+      "BIP MEJEAN",
+      "BIP MIGNOT",
+      "BIP PIERREL",
+      "BIP WU",
+      "LCB AZZA",
+      "LCB BARRAS",
+      "LCB BONNEFOY",
+      "LCB BOUVERET",
+      "LCB CAMPOS",
+      "LCB CASCALES",
+      "LCB CHARPENTIER",
+      "LCB DE CRECY",
+      "LCB DOLLA",
+      "LCB FRONZES",
+      "LCB LATIFI",
+      "LCB MIGNOT",
+      "LCB STURGIS",
+      "LCB TALLA",
+      "IGS BARLOY",
+      "IGS BERNE",
+      "IGS CLAVERIE",
+      "IGS COLSON",
+      "IGS DESNUES",
+      "IGS DRANCOURT",
+      "IGS GAIA",
+      "IGS LA SCOLA",
+      "IGS LEVASSEUR",
+      "IGS PONTAROTTI",
+      "IGS RAOULT",
+      "LISM ANSALDI",
+      "LISM BIONDI",
+      "LISM BORDI",
+      "LISM BROCHIER",
+      "LISM DUCHE",
+      "LISM GALINIER",
+      "LISM GARCIN",
+      "LISM LIGNON",
+      "LISM MICHEL",
+      "LISM SABATY"
+    ],
+    
+    "templates": {
+      "invoiceHeader": {
+        "title": "FACTURE",
+        "subtitle": "Plateforme de Microscopie"
+      },
+      "invoiceFooter": {
+        "paymentTerms": "Paiement à réception de facture par virement bancaire ou mandat administratif.",
+        "legalMentions": {
+          "vatExemption": "Exonération de TVA - Article 261-4-4° du CGI",
+          "latePayment": "En cas de retard de paiement, une pénalité de 3 fois le taux d'intérêt légal sera appliquée.",
+          "earlyPayment": "Pas d'escompte pour paiement anticipé."
+        }
+      },
+      
+      "emailTemplates": {
+        "invoiceSent": {
+          "subject": "Facture {invoiceNumber} - Plateforme Microscopie IMM",
+          "body": "Bonjour,\n\nVeuillez trouver ci-joint la facture {invoiceNumber} d'un montant de {amount} pour les prestations réalisées durant la période du {startDate} au {endDate}.\n\nCordialement,\nPlateforme de Microscopie IMM"
+        },
+        "reminder": {
+          "subject": "Rappel - Facture {invoiceNumber} en attente",
+          "body": "Bonjour,\n\nNous vous rappelons que la facture {invoiceNumber} d'un montant de {amount} émise le {invoiceDate} reste en attente de paiement.\n\nCordialement,\nPlateforme de Microscopie IMM"
+        }
+      }
+    },
+    
+    "settings": {
+      "autoSave": true,
+      "autoSaveInterval": 60000,
+      "sessionTimeout": 3600000,
+      "maxFileSize": 10485760,
+      "allowedFileTypes": [".csv", ".json", ".xlsx"],
+      "defaultView": "teams",
+      "itemsPerPage": 20,
+      "dateRange": {
+        "defaultStart": "yearStart",
+        "defaultEnd": "today"
+      },
+      "notifications": {
+        "enabled": true,
+        "duration": 3000,
+        "position": "bottom-right"
+      },
+      "export": {
+        "includeHeaders": true,
+        "dateFormat": "YYYY-MM-DD",
+        "delimiter": ",",
+        "encoding": "UTF-8"
+      }
+    }
+  },
+  
+  "sampleData": {
+    "teams": [
+      {
+        "name": "BIP EXEMPLE",
+        "laboratory": "BIP",
+        "clientType": "interne",
+        "projectName": "Projet Test",
+        "microscopeSessions": [2, 0, 1, 0, 0, 0],
+        "manipulations": [
+          {
+            "name": "Negative staining",
+            "samples": 5,
+            "date": "2024-01-15",
+            "session": "NS-001"
+          }
+        ]
+      }
+    ],
+    
+    "projects": [
+      {
+        "title": "Facturation Q1 2024",
+        "startDate": "2024-01-01",
+        "endDate": "2024-03-31",
+        "status": "active"
+      }
+    ]
+  },
+  
+  "migrations": {
+    "version": "1.0.0",
+    "history": [
+      {
+        "version": "1.0.0",
+        "date": "2024-01-20",
+        "description": "Version initiale"
+      }
+    ]
+  }
+}
