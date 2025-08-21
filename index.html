@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interface de Facturation et Gestion des Équipes - Plateforme Microscopie">
+    <meta name="author" content="IMM Microscopy Facility">
+    <title>Interface de Facturation - Gestion des Équipes</title>
+    
+    <!-- ============================== -->
+    <!-- STYLES MODULAIRES              -->
+    <!-- ============================== -->
+    <!-- Base : Variables CSS, Reset, Typographie -->
+    <link rel="stylesheet" href="css/base.css">
+    
+    <!-- Composants réutilisables -->
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Modules spécifiques (créer vides si n'existent pas) -->
+    <link rel="stylesheet" href="css/config.css"> 
+    <link rel="stylesheet" href="css/teams.css">
+    <link rel="stylesheet" href="css/billing.css">
+    
+    <!-- Thèmes -->
+    <link rel="stylesheet" href="css/theme.css">
+    
+    <!-- Styles temporaires pour debug -->
+    <style>
+        
+        /* Loader basique */
+        #app-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loader-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================== -->
+    <!-- LOADER                         -->
+    <!-- ============================== -->
+    <div id="app-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>Chargement de l'application...</p>
+            <small id="loader-status">Initialisation...</small>
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- CONTENEUR PRINCIPAL            -->
+    <!-- ============================== -->
+    <div class="app-container hidden" id="app-container">
+        
+        <!-- ============================== -->
+        <!-- HEADER GLOBAL                  -->
+        <!-- ============================== -->
+        <header id="global-header" class="global-header hidden">
+            <div class="header-logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">Interface Facturation</span>
+            </div>
+            
+            <nav id="main-navigation" class="main-navigation">
+                <!-- Navigation dynamique -->
+            </nav>
+            
+            <div id="header-actions" class="header-actions">
+                <!-- Actions dynamiques -->
+            </div>
+        </header>
+
+        <!-- ============================== -->
+        <!-- ÉCRAN DE DÉMARRAGE             -->
+        <!-- ============================== -->
+        <div id="startup-screen" class="startup-screen">
+            <div id="startup-container" class="startup-container">
+                <!-- Contenu par défaut si JS échoue -->
+                <div style="text-align: center; padding: 40px;">
+                    <h1>📊 Interface de Facturation</h1>
+                    <p>Chargement en cours...</p>
+                    <noscript>
+                        <p style="color: red;">⚠️ JavaScript est requis pour cette application</p>
+                    </noscript>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- INTERFACE PRINCIPALE           -->
+        <!-- ============================== -->
+        <main id="main-interface" class="main-interface hidden">
+            
+            <!-- BARRE D'OUTILS -->
+            <div id="toolbar-container" class="toolbar-container"></div>
+
+            <!-- STATISTIQUES -->
+            <div id="stats-container" class="stats-container"></div>
+
+            <!-- ONGLETS -->
+            <div id="tabs-container" class="tabs-container">
+                <div class="tabs-header" id="tabs-header">
+                    <button class="tab-button active" data-tab="teams">
+                        <span>👥</span>
+                        <span>Équipes</span>
+                    </button>
+                    <button class="tab-button" data-tab="billing">
+                        <span>💰</span>
+                        <span>Facturation</span>
+                    </button>
+                    <button class="tab-button" data-tab="config">
+                        <span>⚙️</span>
+                        <span>Configuration</span>
+                    </button>
+                    <button class="tab-button" data-tab="reports">
+                        <span>📈</span>
+                        <span>Rapports</span>
+                    </button>
+                </div>
+
+                <!-- CONTENU DES ONGLETS -->
+                <div class="tabs-content" id="tabs-content">
+                    
+                    <!-- ONGLET ÉQUIPES -->
+                    <div id="teams-tab" class="tab-panel active" data-tab="teams">
+                        <div id="teams-header" class="section-header"></div>
+                        <div id="teams-container" class="teams-container">
+                            <p style="text-align: center; padding: 20px;">Module Équipes en chargement...</p>
+                        </div>
+                    </div>
+
+                    <!-- ONGLET FACTURATION -->
+                    <div id="billing-tab" class="tab-panel" data-tab="billing">
+                        <div id="billing-header" class="section-header"></div>
+                        <div id="billing-container" class="billing-container">
+                            <p style="text-align: center; padding: 20px;">Module Facturation en chargement...</p>
+                        </div>
+                    </div>
+
+                    <!-- ONGLET CONFIGURATION -->
+                    <div id="config-tab" class="tab-panel" data-tab="config">
+                        <div id="config-header" class="section-header"></div>
+                        <div id="config-container" class="config-container">
+                            <p style="text-align: center; padding: 20px;">Module Configuration en chargement...</p>
+                        </div>
+                    </div>
+
+                    <!-- ONGLET RAPPORTS -->
+                    <div id="reports-tab" class="tab-panel" data-tab="reports">
+                        <div id="reports-header" class="section-header"></div>
+                        <div id="reports-container" class="reports-container">
+                            <p style="text-align: center; padding: 20px;">Module Rapports en chargement...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ZONE DE TRAVAIL -->
+            <div id="workspace-container" class="workspace-container"></div>
+
+        </main>
+
+        <!-- ============================== -->
+        <!-- MODALS                         -->
+        <!-- ============================== -->
+        <div id="modals-container">
+            <!-- Modal générique -->
+            <div id="generic-modal" class="modal hidden">
+                <div class="modal-content" id="generic-modal-content"></div>
+            </div>
+
+            <!-- Modal de confirmation -->
+            <div id="confirm-modal" class="modal hidden">
+                <div class="modal-content confirm-modal-content">
+                    <h3 id="confirm-modal-title">Confirmation</h3>
+                    <p id="confirm-modal-message"></p>
+                    <div class="modal-actions">
+                        <button id="confirm-modal-yes" class="btn btn-primary">Confirmer</button>
+                        <button id="confirm-modal-no" class="btn btn-secondary">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- NOTIFICATIONS                  -->
+        <!-- ============================== -->
+        <div id="notifications-container" class="notifications-container"></div>
+
+        <!-- ============================== -->
+        <!-- FOOTER                         -->
+        <!-- ============================== -->
+        <footer id="app-footer" class="app-footer hidden">
+            <div class="footer-content">
+                <span id="footer-status">Prêt</span>
+                <span id="footer-version">v1.0.0</span>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- SCRIPTS MODULAIRES             -->
+    <!-- ============================== -->
+    
+    <!-- 1. Init doit être chargé EN PREMIER -->
+    <script src="js/init.js" onerror="debugLog('Erreur chargement init.js', 'error')"></script>
+    
+    <!-- 2. Core est requis par tous les autres -->
+    <script src="js/core.js" onerror="debugLog('Erreur chargement core.js', 'error')"></script>
+    
+    <!-- 3. UI Module avant les autres modules -->
+    <script src="js/ui.module.js" onerror="debugLog('Erreur chargement ui.module.js', 'error')"></script>
+    
+    <!-- 4. Modules métier -->
+    <script src="js/config.module.js" onerror="debugLog('Erreur chargement config.module.js', 'error')"></script>
+    <script src="js/teams.module.js" onerror="debugLog('Erreur chargement teams.module.js', 'error')"></script>
+    <script src="js/billing.module.js" onerror="debugLog('Erreur chargement billing.module.js', 'error')"></script>
+    
+    <!-- 5. App en dernier (orchestrateur) -->
+    <script src="js/app.js" onerror="debugLog('Erreur chargement app.js', 'error')"></script>
+
+</body>
+</html>
