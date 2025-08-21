@@ -35,6 +35,7 @@ window.UIModule = (function() {
             };
             
             const settings = { ...defaults, ...options };
+            lastClickTime: null,
             
             // Créer ou récupérer la modale
             let modalEl = document.getElementById('generic-modal');
@@ -599,11 +600,11 @@ window.UIModule = (function() {
         currentTab: null,
         
         initTabs: function() {
-            document.addEventListener('click', (e) => {
-                if (e.target.classList.contains('tab-button')) {
-                    this.switchTab(e.target.dataset.tab);
-                }
-            });
+            // Supprimer l'ancien listener générique
+            // document.addEventListener('click', (e) => { ... });
+            
+            // Nouveau système d'événements plus robuste
+            this.setupTabNavigation();
             
             // Activer le premier onglet
             const firstTab = document.querySelector('.tab-button');
@@ -611,12 +612,85 @@ window.UIModule = (function() {
                 this.switchTab(firstTab.dataset.tab);
             }
         },
+
+        setupTabNavigation: function() {
+        // CSS pour les styles des onglets
+        this.addTabStyles();
+        
+        // Configurer les listeners sur tous les onglets
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            // Nettoyer les anciens listeners
+            btn.onclick = null;
+            btn.removeEventListener('click', this.handleTabClick);
+            
+            // Nouveau listener optimisé
+            btn.addEventListener('click', this.handleTabClick.bind(this));
+            
+            // Feedback visuel
+            btn.addEventListener('mousedown', this.handleMouseDown);
+            btn.addEventListener('mouseup', this.handleMouseUp);
+            btn.addEventListener('mouseleave', this.handleMouseUp);
+        });
+        
+        console.log('✅ Navigation des onglets configurée');
+        },
+
+        /**
+         * 3. Ajoutez la méthode de gestion des clics :
+         */
+
+        handleTabClick: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const tabName = e.target.dataset.tab;
+            if (!tabName) return;
+            
+            console.log(`🖱️ Navigation vers ${tabName}`);
+            
+            // Débouncing pour éviter les double-clics
+            if (this.lastClickTime && Date.now() - this.lastClickTime < 300) {
+                console.log('🚫 Double-clic ignoré');
+                return;
+            }
+            this.lastClickTime = Date.now();
+            
+            // Changer d'onglet
+            this.switchTab(tabName);
+        },
+
+        /**
+         * 4. Ajoutez les méthodes de feedback visuel :
+         */
+
+        handleMouseDown: function(e) {
+            e.target.style.transform = 'scale(0.95)';
+        },
+
+        handleMouseUp: function(e) {
+            e.target.style.transform = 'scale(1)';
+        },
+
         
         switchTab: function(tabName) {
-            // Désactiver tous les onglets
+            if (!tabName) return;
+            
+            // Éviter les changements inutiles
+            if (this.currentTab === tabName) {
+                console.log(`📋 Onglet ${tabName} déjà actif`);
+                return;
+            }
+            
+            console.log(`📋 Changement vers ${tabName}`);
+            
+            // Reset de tous les onglets (style et classes)
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderBottomColor = '';
             });
+            
             document.querySelectorAll('.tab-panel').forEach(panel => {
                 panel.classList.remove('active');
             });
@@ -625,18 +699,90 @@ window.UIModule = (function() {
             const button = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
             const panel = document.querySelector(`.tab-panel[data-tab="${tabName}"]`);
             
-            if (button) button.classList.add('active');
-            if (panel) panel.classList.add('active');
+            if (button) {
+                button.classList.add('active');
+            }
             
+            if (panel) {
+                panel.classList.add('active');
+            }
+            
+            // Mettre à jour l'état
             this.currentTab = tabName;
-            Core.events.emit('ui:tab:changed', tabName);
+            
+            // Émettre l'événement (de manière non-bloquante)
+            requestAnimationFrame(() => {
+                Core.events.emit('ui:tab:changed', tabName);
+            });
         },
-        
-        getCurrentTab: function() {
-            return this.currentTab;
+
+        addTabStyles: function() {
+        // Éviter de dupliquer les styles
+        if (document.getElementById('tab-navigation-styles')) {
+            return;
         }
-    };
-    
+        
+        const style = document.createElement('style');
+        style.id = 'tab-navigation-styles';
+        style.textContent = `
+            /* Styles pour la navigation des onglets */
+            .tab-button {
+                position: relative;
+                transition: all 0.2s ease;
+                cursor: pointer;
+                user-select: none;
+                border: none;
+                background: transparent;
+                padding: 12px 20px;
+                border-bottom: 3px solid transparent;
+                font-weight: 500;
+                color: var(--text-secondary);
+            }
+            
+            .tab-button:hover:not(.active) {
+                background: rgba(37, 99, 235, 0.1) !important;
+                color: var(--text-primary);
+            }
+            
+            .tab-button.active {
+                background: rgba(37, 99, 235, 0.1) !important;
+                color: var(--primary-color) !important;
+                border-bottom-color: var(--primary-color) !important;
+                font-weight: 600;
+            }
+            
+            .tab-button:active {
+                transform: scale(0.95);
+            }
+            
+            /* Animation pour les panneaux */
+            .tab-panel {
+                display: none;
+                animation: fadeIn 0.2s ease;
+            }
+            
+            .tab-panel.active {
+                display: block;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            /* Responsive */
+            @media (max-width: 768px) {
+                .tab-button {
+                    padding: 10px 15px;
+                    font-size: 14px;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
+        console.log('🎨 Styles de navigation ajoutés');
+    },
+
     // =========================================
     // LOADER GLOBAL
     // =========================================
