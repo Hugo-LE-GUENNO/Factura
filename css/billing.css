@@ -1,0 +1,907 @@
+/**
+ * BILLING.CSS - Styles spécifiques au module Facturation
+ * Factures, rapports financiers et tableaux de bord
+ */
+
+/* =========================================
+   CONTENEUR PRINCIPAL
+   ========================================= */
+.billing-container {
+    padding: var(--spacing-lg);
+    animation: fadeIn var(--transition);
+}
+
+.billing-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.billing-dashboard h2 {
+    color: var(--primary-color);
+    font-size: var(--font-size-2xl);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+/* =========================================
+   STATISTIQUES FINANCIÈRES
+   ========================================= */
+.billing-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.billing-stats .stat-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition);
+}
+
+.billing-stats .stat-card:nth-child(2) {
+    background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+}
+
+.billing-stats .stat-card:nth-child(3) {
+    background: linear-gradient(135deg, var(--warning-color), var(--warning-dark));
+}
+
+.billing-stats .stat-card:nth-child(4) {
+    background: linear-gradient(135deg, var(--info-color), var(--info-dark));
+}
+
+.billing-stats .stat-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.billing-stats .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.billing-stats .stat-value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.billing-stats .stat-label {
+    font-size: var(--font-size);
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================
+   ACTIONS FACTURATION
+   ========================================= */
+.billing-actions {
+    display: flex;
+    gap: var(--spacing);
+    flex-wrap: wrap;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+}
+
+body.dark-mode .billing-actions {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   GRAPHIQUES
+   ========================================= */
+.billing-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.revenue-chart,
+.breakdown-chart {
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow);
+}
+
+body.dark-mode .revenue-chart,
+body.dark-mode .breakdown-chart {
+    background: var(--bg-tertiary);
+}
+
+.revenue-chart h3,
+.breakdown-chart h3 {
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+}
+
+/* Barres de graphique */
+.chart-bars {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 200px;
+    padding: var(--spacing);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.chart-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 var(--spacing-sm);
+}
+
+.bar-fill {
+    width: 100%;
+    max-width: 80px;
+    background: var(--primary-color);
+    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+    position: relative;
+    transition: all var(--transition);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--spacing-sm);
+}
+
+.bar-fill:hover {
+    transform: scaleY(1.05);
+    filter: brightness(1.1);
+}
+
+.bar-value {
+    color: white;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);
+}
+
+.bar-label {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    text-transform: capitalize;
+    color: var(--text-secondary);
+}
+
+/* Liste de répartition */
+.chart-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+}
+
+.chart-item {
+    display: grid;
+    grid-template-columns: 120px 1fr 80px;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.item-label {
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.item-bar {
+    height: 24px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius-full);
+    overflow: hidden;
+}
+
+.bar-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+    border-radius: var(--border-radius-full);
+    transition: width var(--transition);
+}
+
+.item-value {
+    text-align: right;
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary-color);
+}
+
+/* =========================================
+   DOCUMENT FACTURE
+   ========================================= */
+.invoice-document {
+    background: white;
+    padding: var(--spacing-2xl);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+body.dark-mode .invoice-document {
+    background: var(--bg-primary);
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.invoice-logo h1 {
+    color: var(--primary-color);
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+}
+
+.invoice-logo p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-xs) 0;
+}
+
+.invoice-info {
+    text-align: right;
+}
+
+.invoice-info h2 {
+    color: var(--primary-color);
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing);
+}
+
+.invoice-info p {
+    color: var(--text-secondary);
+    margin: var(--spacing-xs) 0;
+}
+
+.invoice-client {
+    background: var(--bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+body.dark-mode .invoice-client {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.invoice-client h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing);
+}
+
+.invoice-client p {
+    margin: var(--spacing-xs) 0;
+}
+
+/* Table des items de facture */
+.invoice-items {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-lg) 0;
+}
+
+.invoice-items thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+.invoice-items th {
+    padding: var(--spacing) var(--spacing-md);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+}
+
+.invoice-items th:last-child {
+    text-align: right;
+}
+
+.invoice-items tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.invoice-items tbody tr:hover {
+    background: var(--bg-tertiary);
+}
+
+.invoice-items td {
+    padding: var(--spacing) var(--spacing-md);
+}
+
+.invoice-items td:last-child {
+    text-align: right;
+    font-weight: var(--font-weight-semibold);
+}
+
+.invoice-items .section-header td {
+    background: var(--bg-secondary);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-color);
+}
+
+/* Totaux de facture */
+.invoice-items tfoot tr {
+    border-top: 2px solid var(--border-color);
+}
+
+.invoice-items tfoot .subtotal td,
+.invoice-items tfoot .vat td {
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.invoice-items tfoot .total td {
+    padding: var(--spacing) var(--spacing-md);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    background: var(--primary-alpha);
+    color: var(--primary-color);
+}
+
+.invoice-footer {
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.payment-info {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: var(--spacing);
+}
+
+.legal-info {
+    color: var(--text-light);
+    font-size: var(--font-size-sm);
+}
+
+/* =========================================
+   LISTE DES FACTURES
+   ========================================= */
+.invoices-list {
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow);
+}
+
+body.dark-mode .invoices-list {
+    background: var(--bg-tertiary);
+}
+
+.invoices-list h3 {
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+}
+
+.invoices-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoices-table thead {
+    background: var(--bg-secondary);
+}
+
+body.dark-mode .invoices-table thead {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.invoices-table th {
+    padding: var(--spacing) var(--spacing-md);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.invoices-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background var(--transition-fast);
+}
+
+.invoices-table tbody tr:hover {
+    background: var(--bg-tertiary);
+}
+
+body.dark-mode .invoices-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.invoices-table td {
+    padding: var(--spacing) var(--spacing-md);
+}
+
+/* =========================================
+   FORMULAIRE DE FACTURE
+   ========================================= */
+.invoice-form {
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+}
+
+body.dark-mode .invoice-form {
+    background: var(--bg-tertiary);
+}
+
+.invoice-form h3 {
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-color);
+}
+
+.date-range {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.date-range input {
+    flex: 1;
+}
+
+.date-range span {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-secondary);
+}
+
+/* =========================================
+   RAPPORTS
+   ========================================= */
+.billing-report {
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+}
+
+body.dark-mode .billing-report {
+    background: var(--bg-tertiary);
+}
+
+.billing-report h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing);
+}
+
+.billing-report h4 {
+    color: var(--text-primary);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing);
+}
+
+.report-summary {
+    background: var(--bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+body.dark-mode .report-summary {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.report-summary ul {
+    list-style: none;
+    padding: 0;
+}
+
+.report-summary li {
+    padding: var(--spacing-xs) 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.report-summary li strong {
+    color: var(--primary-color);
+}
+
+.report-breakdown {
+    margin-bottom: var(--spacing-lg);
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing);
+}
+
+.report-table thead {
+    background: var(--primary-alpha);
+}
+
+.report-table th {
+    padding: var(--spacing) var(--spacing-md);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary-color);
+}
+
+.report-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.report-table tbody tr:hover {
+    background: var(--bg-tertiary);
+}
+
+.report-table td {
+    padding: var(--spacing) var(--spacing-md);
+}
+
+.report-projections {
+    background: linear-gradient(135deg, var(--primary-alpha), var(--secondary-alpha));
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+.report-projections ul {
+    list-style: none;
+    padding: 0;
+}
+
+.report-projections li {
+    padding: var(--spacing-sm) 0;
+    font-size: var(--font-size-lg);
+}
+
+.report-projections li strong {
+    color: var(--primary-color);
+    font-size: var(--font-size-xl);
+}
+
+.report-actions {
+    display: flex;
+    gap: var(--spacing);
+    margin-top: var(--spacing-lg);
+}
+
+/* =========================================
+   BADGES ET STATUTS
+   ========================================= */
+.invoice-status {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+}
+
+.invoice-status.draft {
+    background: var(--info-alpha);
+    color: var(--info-color);
+}
+
+.invoice-status.sent {
+    background: var(--warning-alpha);
+    color: var(--warning-color);
+}
+
+.invoice-status.paid {
+    background: var(--secondary-alpha);
+    color: var(--secondary-color);
+}
+
+.invoice-status.cancelled {
+    background: var(--danger-alpha);
+    color: var(--danger-color);
+}
+
+/* =========================================
+   BOUTONS SPÉCIFIQUES FACTURATION
+   ========================================= */
+.btn-invoice {
+    background: linear-gradient(135deg, var(--warning-color), var(--warning-dark));
+    color: white;
+    padding: var(--spacing) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.btn-invoice:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.3);
+}
+
+.btn-print {
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-print:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* =========================================
+   TIMELINE PAIEMENTS
+   ========================================= */
+.payment-timeline {
+    position: relative;
+    padding-left: var(--spacing-2xl);
+    margin: var(--spacing-lg) 0;
+}
+
+.payment-timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-color);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: var(--spacing-lg);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: 2px solid white;
+    box-shadow: var(--shadow);
+}
+
+.timeline-item.pending::before {
+    background: var(--warning-color);
+}
+
+.timeline-item.completed::before {
+    background: var(--secondary-color);
+}
+
+.timeline-date {
+    font-size: var(--font-size-sm);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xs);
+}
+
+.timeline-content {
+    background: var(--bg-secondary);
+    padding: var(--spacing);
+    border-radius: var(--border-radius);
+}
+
+body.dark-mode .timeline-content {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   WIDGETS FINANCIERS
+   ========================================= */
+.financial-widget {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+body.dark-mode .financial-widget {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color-dark);
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.widget-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.widget-value {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-color);
+}
+
+.widget-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.widget-trend.up {
+    background: var(--secondary-alpha);
+    color: var(--secondary-color);
+}
+
+.widget-trend.down {
+    background: var(--danger-alpha);
+    color: var(--danger-color);
+}
+
+/* =========================================
+   ÉTATS VIDES
+   ========================================= */
+.billing-empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    margin: var(--spacing-lg) 0;
+}
+
+body.dark-mode .billing-empty-state {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.billing-empty-icon {
+    font-size: 72px;
+    opacity: 0.3;
+    margin-bottom: var(--spacing);
+}
+
+.billing-empty-state h3 {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing);
+}
+
+.billing-empty-state p {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.invoice-document {
+    animation: slideInFromRight 0.3s ease;
+}
+
+@keyframes countUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.stat-value {
+    animation: countUp 0.5s ease;
+}
+
+/* =========================================
+   IMPRESSION
+   ========================================= */
+@media print {
+    .billing-actions,
+    .billing-stats,
+    .billing-charts,
+    .btn-invoice,
+    .btn-print,
+    .report-actions {
+        display: none !important;
+    }
+    
+    .invoice-document {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .invoice-items {
+        page-break-inside: avoid;
+    }
+    
+    body {
+        background: white;
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+    .billing-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .billing-charts {
+        grid-template-columns: 1fr;
+    }
+    
+    .invoice-header {
+        flex-direction: column;
+        text-align: left;
+    }
+    
+    .invoice-info {
+        text-align: left;
+        margin-top: var(--spacing-lg);
+    }
+    
+    .chart-bars {
+        height: 150px;
+    }
+    
+    .invoices-table {
+        font-size: var(--font-size-sm);
+    }
+    
+    .invoices-table th,
+    .invoices-table td {
+        padding: var(--spacing-sm);
+    }
+    
+    .date-range {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .date-range span {
+        text-align: center;
+    }
+    
+    .report-actions {
+        flex-direction: column;
+    }
+    
+    .report-actions .btn {
+        width: 100%;
+    }
+}
