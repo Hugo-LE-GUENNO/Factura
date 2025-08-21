@@ -1,0 +1,542 @@
+/**
+ * STYLES SPÉCIFIQUES AU MODULE CONFIGURATION
+ * Peut être modifié indépendamment sans affecter le reste
+ */
+
+/* =========================================
+   VARIABLES SPÉCIFIQUES CONFIGURATION
+   ========================================= */
+.config-module {
+    --config-primary: #2563eb;
+    --config-secondary: #10b981;
+    --config-danger: #ef4444;
+    --config-warning: #f59e0b;
+    --config-bg-light: #f8fafc;
+    --config-bg-dark: #1e293b;
+    --config-border: #e2e8f0;
+    --config-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    --config-radius: 12px;
+    --config-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mode sombre */
+body.dark-mode .config-module {
+    --config-bg-light: #334155;
+    --config-bg-dark: #0f172a;
+    --config-border: #475569;
+}
+
+/* =========================================
+   LAYOUT CONFIGURATION
+   ========================================= */
+.config-container {
+    display: grid;
+    gap: 24px;
+    padding: 20px;
+    animation: configFadeIn 0.4s ease;
+}
+
+@keyframes configFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grille responsive */
+.config-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* =========================================
+   SECTIONS DE CONFIGURATION
+   ========================================= */
+.config-section {
+    background: var(--config-bg-light);
+    border: 1px solid var(--config-border);
+    border-radius: var(--config-radius);
+    padding: 20px;
+    transition: var(--config-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.config-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--config-primary), var(--config-secondary));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.config-section:hover::before {
+    transform: scaleX(1);
+}
+
+.config-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.config-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--config-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================================
+   LISTES DE CONFIGURATION
+   ========================================= */
+.config-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Scrollbar personnalisée */
+.config-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.config-list::-webkit-scrollbar-track {
+    background: var(--config-border);
+    border-radius: 3px;
+}
+
+.config-list::-webkit-scrollbar-thumb {
+    background: var(--config-primary);
+    border-radius: 3px;
+}
+
+.config-list::-webkit-scrollbar-thumb:hover {
+    background: var(--config-secondary);
+}
+
+/* =========================================
+   ITEMS DE CONFIGURATION
+   ========================================= */
+.config-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: white;
+    border: 1px solid var(--config-border);
+    border-radius: 8px;
+    transition: var(--config-transition);
+    position: relative;
+}
+
+body.dark-mode .config-item {
+    background: var(--config-bg-dark);
+}
+
+.config-item:hover {
+    border-color: var(--config-primary);
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.05), 
+        rgba(16, 185, 129, 0.05));
+}
+
+.config-item input[type="text"],
+.config-item input[type="number"] {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: var(--config-transition);
+}
+
+.config-item input:focus {
+    background: white;
+    border-color: var(--config-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+body.dark-mode .config-item input:focus {
+    background: var(--config-bg-dark);
+}
+
+.config-item button {
+    padding: 6px 10px;
+    background: transparent;
+    border: 1px solid var(--config-danger);
+    color: var(--config-danger);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--config-transition);
+    font-size: 16px;
+}
+
+.config-item button:hover {
+    background: var(--config-danger);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Badge pour les icônes */
+.config-item span:first-child {
+    font-size: 20px;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* =========================================
+   ACTIONS RAPIDES
+   ========================================= */
+.config-quick-actions {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.1), 
+        rgba(16, 185, 129, 0.05));
+    border-radius: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    border: 1px solid var(--config-border);
+}
+
+.config-quick-actions .btn {
+    flex: 1;
+    min-width: 140px;
+}
+
+/* =========================================
+   TABLE DES TARIFS
+   ========================================= */
+.tarifs-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--config-shadow);
+}
+
+body.dark-mode .tarifs-table {
+    background: var(--config-bg-dark);
+}
+
+.tarifs-table thead {
+    background: linear-gradient(135deg, var(--config-primary), var(--config-secondary));
+    color: white;
+}
+
+.tarifs-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tarifs-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--config-border);
+    vertical-align: middle;
+}
+
+.tarifs-table tbody tr:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.tarifs-table input[type="number"] {
+    width: 100%;
+    max-width: 100px;
+    padding: 6px 10px;
+    border: 1px solid var(--config-border);
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+    transition: var(--config-transition);
+}
+
+.tarifs-table input[type="number"]:focus {
+    border-color: var(--config-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================
+   DIALOGUES DE CONFIGURATION
+   ========================================= */
+.config-dialog {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: configDialogSlide 0.3s ease;
+}
+
+@keyframes configDialogSlide {
+    from {
+        transform: translateY(-20px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+body.dark-mode .config-dialog {
+    background: var(--config-bg-dark);
+}
+
+.config-dialog h3 {
+    margin-bottom: 20px;
+    color: var(--config-primary);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.config-dialog .form-group {
+    margin-bottom: 16px;
+}
+
+.config-dialog label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.config-dialog input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--config-border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: var(--config-transition);
+}
+
+.config-dialog input:focus {
+    border-color: var(--config-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================
+   BOUTONS AMÉLIORÉS
+   ========================================= */
+.config-section .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--config-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.config-section .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.config-section .btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* =========================================
+   INDICATEURS D'ÉTAT
+   ========================================= */
+.config-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: var(--config-secondary);
+    color: white;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.config-status.saving {
+    background: var(--config-warning);
+    animation: pulse 1s infinite;
+}
+
+.config-status.error {
+    background: var(--config-danger);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* =========================================
+   BADGES ET TAGS
+   ========================================= */
+.config-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background: linear-gradient(135deg, var(--config-primary), var(--config-secondary));
+    color: white;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.config-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: var(--config-bg-light);
+    border: 1px solid var(--config-border);
+    border-radius: 20px;
+    font-size: 13px;
+    transition: var(--config-transition);
+}
+
+.config-tag:hover {
+    border-color: var(--config-primary);
+    background: white;
+}
+
+/* =========================================
+   TOOLTIPS
+   ========================================= */
+.config-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.config-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    background: #1f2937;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.config-tooltip:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+    .config-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .config-quick-actions {
+        flex-direction: column;
+    }
+    
+    .config-quick-actions .btn {
+        width: 100%;
+    }
+    
+    .tarifs-table {
+        font-size: 12px;
+    }
+    
+    .tarifs-table th,
+    .tarifs-table td {
+        padding: 8px 6px;
+    }
+}
+
+/* =========================================
+   ANIMATIONS AVANCÉES
+   ========================================= */
+.config-item.adding {
+    animation: slideInLeft 0.3s ease;
+}
+
+.config-item.removing {
+    animation: slideOutRight 0.3s ease forwards;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   IMPRESSION
+   ========================================= */
+@media print {
+    .config-quick-actions,
+    .config-item button,
+    .config-section .btn {
+        display: none !important;
+    }
+    
+    .config-section {
+        page-break-inside: avoid;
+        border: 1px solid #000;
+    }
+}
