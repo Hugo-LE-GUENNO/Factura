@@ -592,26 +592,6 @@ window.UIModule = (function() {
         }
     };
     
-    // =========================================
-    // NAVIGATION ET ONGLETS
-    // =========================================
-        const navigation = {
-            currentTab: null,
-            lastClickTime: null,
-
-            initTabs: function() {
-                // Nouveau système d'événements plus robuste
-                this.setupTabNavigation();
-                
-                // Activer le premier onglet
-                const firstTab = document.querySelector('.tab-button');
-                if (firstTab) {
-                    this.switchTab(firstTab.dataset.tab);
-            },
-
-// =========================================
-    // NAVIGATION ET ONGLETS
-    // =========================================
     const navigation = {
         currentTab: null,
         lastClickTime: null,
