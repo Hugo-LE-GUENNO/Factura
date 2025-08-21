@@ -1,0 +1,556 @@
+/**
+ * TEAMS.CSS - Styles spécifiques au module Équipes
+ * Gestion de l'affichage des équipes et formulaires associés
+ */
+
+/* =========================================
+   CONTENEUR PRINCIPAL
+   ========================================= */
+.teams-container {
+    padding: var(--spacing-lg);
+    animation: fadeIn var(--transition);
+}
+
+.teams-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    gap: var(--spacing);
+    flex-wrap: wrap;
+}
+
+.teams-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.teams-title h2 {
+    color: var(--primary-color);
+    font-size: var(--font-size-2xl);
+    margin: 0;
+}
+
+.teams-actions {
+    display: flex;
+    gap: var(--spacing);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* =========================================
+   BARRE DE RECHERCHE
+   ========================================= */
+.search-input {
+    padding: var(--spacing-sm) var(--spacing);
+    padding-left: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size);
+    min-width: 250px;
+    transition: all var(--transition-fast);
+    background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") 12px center no-repeat;
+}
+
+body.dark-mode .search-input {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-alpha);
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   TABLE DES ÉQUIPES
+   ========================================= */
+.teams-table {
+    width: 100%;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+body.dark-mode .teams-table {
+    background: var(--bg-tertiary);
+}
+
+.teams-table thead {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+.teams-table th {
+    color: white;
+    padding: var(--spacing) var(--spacing-md);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    user-select: none;
+}
+
+.teams-table th.sortable {
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.teams-table th.sortable:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.teams-table th.sortable::after {
+    content: '↕️';
+    position: absolute;
+    right: var(--spacing);
+    opacity: 0.5;
+    font-size: 12px;
+}
+
+.teams-table th.sorted-asc::after {
+    content: '↑';
+    opacity: 1;
+}
+
+.teams-table th.sorted-desc::after {
+    content: '↓';
+    opacity: 1;
+}
+
+.teams-table tbody tr {
+    transition: all var(--transition-fast);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.teams-table tbody tr:hover {
+    background: var(--bg-tertiary);
+    transform: translateX(2px);
+}
+
+body.dark-mode .teams-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.teams-table td {
+    padding: var(--spacing) var(--spacing-md);
+    vertical-align: middle;
+}
+
+/* Cellule actions */
+.teams-table td:last-child {
+    text-align: right;
+}
+
+/* =========================================
+   CARDS ÉQUIPES (Vue alternative)
+   ========================================= */
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.team-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+body.dark-mode .team-card {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color-dark);
+}
+
+.team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transform: scaleX(0);
+    transition: transform var(--transition);
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.team-card:hover::before {
+    transform: scaleX(1);
+}
+
+.team-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing);
+}
+
+.team-card-header h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+}
+
+.team-card-body {
+    margin-bottom: var(--spacing);
+}
+
+.team-card-body p {
+    margin: var(--spacing-xs) 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.team-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing);
+    border-top: 1px solid var(--border-color);
+}
+
+.team-card-footer .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card-footer .stat-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-color);
+}
+
+.team-card-footer .stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-light);
+    text-transform: uppercase;
+}
+
+.team-card-actions {
+    position: absolute;
+    top: var(--spacing);
+    right: var(--spacing);
+    display: flex;
+    gap: var(--spacing-xs);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.team-card:hover .team-card-actions {
+    opacity: 1;
+}
+
+/* =========================================
+   FORMULAIRE ÉQUIPE
+   ========================================= */
+.team-form {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+}
+
+body.dark-mode .team-form {
+    background: var(--bg-tertiary);
+}
+
+.team-form-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.team-form-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.form-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.form-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Grille des microscopes */
+.microscopes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing);
+}
+
+.microscope-item {
+    background: var(--bg-secondary);
+    padding: var(--spacing);
+    border-radius: var(--border-radius);
+    border: 2px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+body.dark-mode .microscope-item {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.microscope-item:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.microscope-item label {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.microscope-item input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    text-align: center;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.microscope-item input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-alpha);
+}
+
+/* Manipulations */
+.manipulations-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+}
+
+.manipulation-card {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+}
+
+body.dark-mode .manipulation-card {
+    background: var(--bg-tertiary);
+}
+
+.manipulation-card.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-alpha);
+}
+
+.manipulation-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+    padding: var(--spacing);
+    cursor: pointer;
+    background: var(--bg-secondary);
+    transition: background var(--transition-fast);
+}
+
+body.dark-mode .manipulation-header {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.manipulation-header:hover {
+    background: var(--bg-tertiary);
+}
+
+.manipulation-header input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.manipulation-header span {
+    font-size: 24px;
+}
+
+.manipulation-header label {
+    flex: 1;
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+}
+
+.manipulation-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing);
+    padding: var(--spacing);
+    background: white;
+}
+
+body.dark-mode .manipulation-fields {
+    background: var(--bg-primary);
+}
+
+/* =========================================
+   STATISTIQUES ÉQUIPES
+   ========================================= */
+.teams-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing);
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+}
+
+body.dark-mode .teams-stats {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.teams-stats .stat-card {
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: transform var(--transition);
+}
+
+body.dark-mode .teams-stats .stat-card {
+    background: var(--bg-tertiary);
+}
+
+.teams-stats .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+/* =========================================
+   BOUTONS D'ACTION
+   ========================================= */
+.btn-add-team {
+    background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+    color: white;
+    padding: var(--spacing) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.btn-add-team:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3);
+}
+
+.btn-icon {
+    padding: var(--spacing-xs);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.btn-icon:hover {
+    filter: brightness(1.2);
+}
+
+/* =========================================
+   ÉTATS VIDES
+   ========================================= */
+.teams-empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl);
+    color: var(--text-light);
+}
+
+.teams-empty-icon {
+    font-size: 64px;
+    opacity: 0.3;
+    margin-bottom: var(--spacing);
+}
+
+.teams-empty-state h3 {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.teams-empty-state p {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+    .teams-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .teams-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .teams-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .teams-table {
+        font-size: var(--font-size-sm);
+    }
+    
+    .teams-table th,
+    .teams-table td {
+        padding: var(--spacing-sm);
+    }
+    
+    .microscopes-grid {
+        grid-template-columns: 1fr;
+    }
+}
