@@ -952,7 +952,7 @@ window.ConfigModule = (function() {
                 }
             }
         },
-        
+
         importConfig: function() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -1000,7 +1000,7 @@ window.ConfigModule = (function() {
             if (window.showToast) {
                 showToast(`Configuration "${name}" sauvegardée`, 'success');
             }
-        }
+        },
     };
     
     // Retourner l'API publique
