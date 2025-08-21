@@ -489,19 +489,40 @@
             loader.style.display = 'flex';
         },
         
-        /**
-         * Masque le loader
-         */
         hideLoader() {
             const loader = document.getElementById('app-loader');
+            const appContainer = document.getElementById('app-container');
+            
             if (loader) {
                 loader.classList.add('fade-out');
                 setTimeout(() => {
                     loader.style.display = 'none';
                     loader.classList.remove('fade-out');
+                    
+                    // CORRECTION : Afficher le conteneur principal
+                    if (appContainer) {
+                        appContainer.classList.remove('hidden');
+                        console.log('✅ Interface débloquée');
+                    }
                 }, 300);
             }
         },
+        
+        // AJOUTEZ AUSSI cette méthode après hideLoader :
+        showInterface() {
+            // Forcer l'affichage de l'interface
+            const appContainer = document.getElementById('app-container');
+            const startupScreen = document.getElementById('startup-screen');
+            
+            if (appContainer) {
+                appContainer.classList.remove('hidden');
+            }
+            
+            if (startupScreen) {
+                startupScreen.style.display = 'flex';
+                console.log('✅ Écran de démarrage affiché');
+            }
+        }
         
         /**
          * Affiche une erreur
