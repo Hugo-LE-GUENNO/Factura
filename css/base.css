@@ -619,3 +619,210 @@ button:focus,
         display: none !important;
     }
 }
+
+
+/* S'assurer que le conteneur principal est visible par défaut */
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Écran de démarrage centré */
+.startup-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: var(--spacing-lg);
+}
+
+.startup-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.startup-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-3xl);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.startup-header h1 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.startup-header p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* Formulaire de démarrage */
+.startup-form {
+    margin-bottom: var(--spacing-xl);
+}
+
+.startup-form .form-group {
+    margin-bottom: var(--spacing-lg);
+    text-align: left;
+}
+
+.date-range {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.date-range input {
+    flex: 1;
+}
+
+.date-range span {
+    color: var(--text-secondary);
+    font-weight: bold;
+}
+
+/* Actions de démarrage */
+.startup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+    margin-bottom: var(--spacing-xl);
+}
+
+.startup-actions .btn {
+    padding: var(--spacing) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.startup-footer {
+    color: var(--text-light);
+    font-size: var(--font-size-sm);
+}
+
+/* Interface principale */
+.main-interface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header global */
+.global-header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-color);
+}
+
+.logo-icon {
+    font-size: 24px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.project-name {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin-right: var(--spacing);
+}
+
+/* Footer */
+.app-footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-sm);
+    color: var(--text-light);
+}
+
+/* Corrections pour le loader */
+.app-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-max);
+    transition: opacity var(--transition);
+}
+
+.app-loader.fade-out {
+    opacity: 0;
+}
+
+body.dark-mode .app-loader {
+    background: rgba(31, 41, 55, 0.98);
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-content p {
+    margin-top: var(--spacing);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.loader-content small {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: var(--text-light);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .startup-content {
+        padding: var(--spacing-xl);
+    }
+    
+    .date-range {
+        flex-direction: column;
+    }
+    
+    .date-range span {
+        transform: rotate(90deg);
+    }
+    
+    .header-actions {
+        gap: var(--spacing-xs);
+    }
+    
+    .header-actions .btn {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--font-size-sm);
+    }
+}

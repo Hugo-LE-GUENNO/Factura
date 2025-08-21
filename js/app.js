@@ -574,7 +574,10 @@ window.App = (function() {
                 // Vérifier s'il y a un projet en cours
                 const projectInfo = Core ? Core.state.get('projectInfo') : null;
                 const hasTeams = Core ? Core.state.get('teams', []).length > 0 : false;
-                
+
+                // CORRECTION : Toujours masquer le loader et afficher l'interface
+                this.hideLoaderAndShowInterface();
+
                 if (projectInfo && hasTeams) {
                     // Continuer le projet existant
                     ViewManager.showMain();
@@ -582,14 +585,7 @@ window.App = (function() {
                     // Afficher l'écran de démarrage
                     ViewManager.showStartup();
                 }
-                
-                // Masquer le loader
-                if (window.UIModule && window.UIModule.loader) {
-                    UIModule.loader.hide();
-                } else {
-                    const loader = document.getElementById('app-loader');
-                    if (loader) loader.style.display = 'none';
-                }
+
                 
                 appState.isInitialized = true;
                 console.log('✅ Application prête');
@@ -804,6 +800,28 @@ window.App = (function() {
             }, config.autoSaveInterval);
         },
         
+        hideLoaderAndShowInterface: function() {
+        // Masquer le loader
+        const loader = document.getElementById('app-loader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
+        
+        // Afficher le conteneur principal
+        const appContainer = document.getElementById('app-container');
+        if (appContainer) {
+            appContainer.classList.remove('hidden');
+        }
+        
+        // S'assurer que l'écran de démarrage est visible
+        const startupScreen = document.getElementById('startup-screen');
+        if (startupScreen) {
+            startupScreen.style.display = 'flex';
+        }
+        
+        console.log('✅ Interface débloquée automatiquement');
+        },
+
         /**
          * Génère un rapport PDF (placeholder)
          */

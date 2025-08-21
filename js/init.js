@@ -522,7 +522,7 @@
                 startupScreen.style.display = 'flex';
                 console.log('✅ Écran de démarrage affiché');
             }
-        }
+        },
         
         /**
          * Affiche une erreur
