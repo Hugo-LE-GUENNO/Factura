@@ -826,9 +826,9 @@ window.App = (function() {
             } else {
                 UIModule.toast.error('Module Configuration non disponible');
             }
-        
         },
 
+        // Ajoutez aussi ces méthodes dans AppAPI (après showSettings) :
         addMicroscope: function() {
             const name = prompt('Nom du microscope:');
             if (name) {

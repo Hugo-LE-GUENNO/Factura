@@ -776,182 +776,183 @@ window.ConfigModule = (function() {
             a.click();
         },
         showConfigTab: function(tabName) {
-    // Masquer tous les onglets
-    document.querySelectorAll('.config-tab-content').forEach(tab => {
-        tab.style.display = 'none';
-    });
-    document.querySelectorAll('.config-tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Afficher l'onglet sélectionné
-    const tab = document.getElementById(`config-tab-${tabName}`);
-    const btn = document.querySelector(`[data-tab="${tabName}"]`);
-    
-    if (tab) tab.style.display = 'block';
-    if (btn) btn.classList.add('active');
-},
+            // Masquer tous les onglets
+            document.querySelectorAll('.config-tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('.config-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Afficher l'onglet sélectionné
+            const tab = document.getElementById(`config-tab-${tabName}`);
+            const btn = document.querySelector(`[data-tab="${tabName}"]`);
+            
+            if (tab) tab.style.display = 'block';
+            if (btn) btn.classList.add('active');
+        },
 
-generateMicroscopesSection: function() {
-    const microscopes = configState.microscopes || [];
-    return `
-        <div class="config-section">
-            <h3>🔬 Gestion des Microscopes</h3>
-            <div class="config-list">
-                ${microscopes.map((m, i) => `
-                    <div class="config-item">
-                        <span>🔬</span>
-                        <input type="text" value="${m}" onchange="ConfigModule.updateMicroscope(${i}, this.value)">
-                        <button onclick="ConfigModule.removeMicroscope('${m}')" title="Supprimer">🗑️</button>
+        generateMicroscopesSection: function() {
+            const microscopes = configState.microscopes || [];
+            return `
+                <div class="config-section">
+                    <h3>🔬 Gestion des Microscopes</h3>
+                    <div class="config-list">
+                        ${microscopes.map((m, i) => `
+                            <div class="config-item">
+                                <span>🔬</span>
+                                <input type="text" value="${m}" onchange="ConfigModule.updateMicroscope(${i}, this.value)">
+                                <button onclick="ConfigModule.removeMicroscope('${m}')" title="Supprimer">🗑️</button>
+                            </div>
+                        `).join('')}
                     </div>
-                `).join('')}
-            </div>
-            <button class="btn btn-primary" onclick="ConfigModule.addMicroscope()">
-                ➕ Ajouter un Microscope
-            </button>
-        </div>
-    `;
-},
+                    <button class="btn btn-primary" onclick="ConfigModule.addMicroscope()">
+                        ➕ Ajouter un Microscope
+                    </button>
+                </div>
+            `;
+        },
 
-generateServicesSection: function() {
-    const services = configState.manipulations || [];
-    return `
-        <div class="config-section">
-            <h3>🧪 Gestion des Services</h3>
-            <div class="config-list">
-                ${services.map((s, i) => `
-                    <div class="config-item">
-                        <span>${s.icon || '🔬'}</span>
-                        <input type="text" value="${s.name}" onchange="ConfigModule.updateService(${i}, this.value)">
-                        <button onclick="ConfigModule.removeService('${s.name}')" title="Supprimer">🗑️</button>
+        generateServicesSection: function() {
+            const services = configState.manipulations || [];
+            return `
+                <div class="config-section">
+                    <h3>🧪 Gestion des Services</h3>
+                    <div class="config-list">
+                        ${services.map((s, i) => `
+                            <div class="config-item">
+                                <span>${s.icon || '🔬'}</span>
+                                <input type="text" value="${s.name}" onchange="ConfigModule.updateService(${i}, this.value)">
+                                <button onclick="ConfigModule.removeService('${s.name}')" title="Supprimer">🗑️</button>
+                            </div>
+                        `).join('')}
                     </div>
-                `).join('')}
-            </div>
-            <button class="btn btn-primary" onclick="ConfigModule.addService()">
-                ➕ Ajouter un Service
-            </button>
-        </div>
-    `;
-},
+                    <button class="btn btn-primary" onclick="ConfigModule.addService()">
+                        ➕ Ajouter un Service
+                    </button>
+                </div>
+            `;
+        },
 
-generateLaboratoriesSection: function() {
-    const labs = configState.internalLaboratories || [];
-    return `
-        <div class="config-section">
-            <h3>🏛️ Laboratoires Internes</h3>
-            <p><small>Ces laboratoires seront automatiquement classés comme "internes"</small></p>
-            <div class="config-list">
-                ${labs.map((lab, i) => `
-                    <div class="config-item">
-                        <span>🏛️</span>
-                        <input type="text" value="${lab}" onchange="ConfigModule.updateLaboratory(${i}, this.value)">
-                        <button onclick="ConfigModule.removeLaboratory('${lab}')" title="Supprimer">🗑️</button>
+        generateLaboratoriesSection: function() {
+            const labs = configState.internalLaboratories || [];
+            return `
+                <div class="config-section">
+                    <h3>🏛️ Laboratoires Internes</h3>
+                    <p><small>Ces laboratoires seront automatiquement classés comme "internes"</small></p>
+                    <div class="config-list">
+                        ${labs.map((lab, i) => `
+                            <div class="config-item">
+                                <span>🏛️</span>
+                                <input type="text" value="${lab}" onchange="ConfigModule.updateLaboratory(${i}, this.value)">
+                                <button onclick="ConfigModule.removeLaboratory('${lab}')" title="Supprimer">🗑️</button>
+                            </div>
+                        `).join('')}
                     </div>
-                `).join('')}
-            </div>
-            <button class="btn btn-primary" onclick="ConfigModule.addLaboratory()">
-                ➕ Ajouter un Laboratoire
-            </button>
-        </div>
-    `;
-},
+                    <button class="btn btn-primary" onclick="ConfigModule.addLaboratory()">
+                        ➕ Ajouter un Laboratoire
+                    </button>
+                </div>
+            `;
+        },
 
-generateTarifsSection: function() {
-    return `
-        <div class="config-section">
-            <h3>💰 Grille Tarifaire</h3>
-            <p><small>Tarifs en euros par session/échantillon</small></p>
-            <table class="tarifs-table">
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Interne (€)</th>
-                        <th>Externe (€)</th>
-                        <th>Privé (€)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${this.generateTarifsRows()}
-                </tbody>
-            </table>
-        </div>
-    `;
-},
+        generateTarifsSection: function() {
+            return `
+                <div class="config-section">
+                    <h3>💰 Grille Tarifaire</h3>
+                    <p><small>Tarifs en euros par session/échantillon</small></p>
+                    <table class="tarifs-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Interne (€)</th>
+                                <th>Externe (€)</th>
+                                <th>Privé (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${this.generateTarifsRows()}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        },
 
-/**
- * 4. Ajoutez ces méthodes utilitaires :
- */
+        /**
+         * 4. Ajoutez ces méthodes utilitaires :
+         */
 
-addMicroscope: function() {
-    const name = prompt('Nom du nouveau microscope :');
-    if (name && !configState.microscopes.includes(name)) {
-        configState.microscopes.push(name);
-        configState.tarifs.microscopes[name] = { interne: 0, externe: 0, prive: 0 };
-        this.save();
-        this.renderConfigUI();
-        UIModule.toast.success(`Microscope "${name}" ajouté`);
-    }
-},
+        addMicroscope: function() {
+            const name = prompt('Nom du nouveau microscope :');
+            if (name && !configState.microscopes.includes(name)) {
+                configState.microscopes.push(name);
+                configState.tarifs.microscopes[name] = { interne: 0, externe: 0, prive: 0 };
+                this.save();
+                this.renderConfigUI();
+                UIModule.toast.success(`Microscope "${name}" ajouté`);
+            }
+        },
 
-removeMicroscope: function(name) {
-    if (confirm(`Supprimer le microscope "${name}" ?`)) {
-        const index = configState.microscopes.indexOf(name);
-        if (index > -1) {
-            configState.microscopes.splice(index, 1);
-            delete configState.tarifs.microscopes[name];
-            this.save();
-            this.renderConfigUI();
-            UIModule.toast.success(`Microscope "${name}" supprimé`);
-        }
-    }
-},
+        removeMicroscope: function(name) {
+            if (confirm(`Supprimer le microscope "${name}" ?`)) {
+                const index = configState.microscopes.indexOf(name);
+                if (index > -1) {
+                    configState.microscopes.splice(index, 1);
+                    delete configState.tarifs.microscopes[name];
+                    this.save();
+                    this.renderConfigUI();
+                    UIModule.toast.success(`Microscope "${name}" supprimé`);
+                }
+            }
+        },
 
-addService: function() {
-    const name = prompt('Nom du nouveau service :');
-    if (name && !configState.manipulations.find(m => m.name === name)) {
-        const icon = prompt('Icône (optionnel) :', '🔬');
-        configState.manipulations.push({ name, icon: icon || '🔬' });
-        configState.tarifs.services[name] = { interne: 0, externe: 0, prive: 0 };
-        this.save();
-        this.renderConfigUI();
-        UIModule.toast.success(`Service "${name}" ajouté`);
-    }
-},
+        addService: function() {
+            const name = prompt('Nom du nouveau service :');
+            if (name && !configState.manipulations.find(m => m.name === name)) {
+                const icon = prompt('Icône (optionnel) :', '🔬');
+                configState.manipulations.push({ name, icon: icon || '🔬' });
+                configState.tarifs.services[name] = { interne: 0, externe: 0, prive: 0 };
+                this.save();
+                this.renderConfigUI();
+                UIModule.toast.success(`Service "${name}" ajouté`);
+            }
+        },
 
-removeService: function(name) {
-    if (confirm(`Supprimer le service "${name}" ?`)) {
-        const index = configState.manipulations.findIndex(m => m.name === name);
-        if (index > -1) {
-            configState.manipulations.splice(index, 1);
-            delete configState.tarifs.services[name];
-            this.save();
-            this.renderConfigUI();
-            UIModule.toast.success(`Service "${name}" supprimé`);
-        }
-    }
-},
+        removeService: function(name) {
+            if (confirm(`Supprimer le service "${name}" ?`)) {
+                const index = configState.manipulations.findIndex(m => m.name === name);
+                if (index > -1) {
+                    configState.manipulations.splice(index, 1);
+                    delete configState.tarifs.services[name];
+                    this.save();
+                    this.renderConfigUI();
+                    UIModule.toast.success(`Service "${name}" supprimé`);
+                }
+            }
+        },
 
-addLaboratory: function() {
-    const code = prompt('Code du laboratoire :');
-    if (code && !configState.internalLaboratories.includes(code.toUpperCase())) {
-        configState.internalLaboratories.push(code.toUpperCase());
-        this.save();
-        this.renderConfigUI();
-        UIModule.toast.success(`Laboratoire "${code}" ajouté`);
-    }
-},
+        addLaboratory: function() {
+            const code = prompt('Code du laboratoire :');
+            if (code && !configState.internalLaboratories.includes(code.toUpperCase())) {
+                configState.internalLaboratories.push(code.toUpperCase());
+                this.save();
+                this.renderConfigUI();
+                UIModule.toast.success(`Laboratoire "${code}" ajouté`);
+            }
+        },
 
-removeLaboratory: function(code) {
-    if (confirm(`Supprimer le laboratoire "${code}" ?`)) {
-        const index = configState.internalLaboratories.indexOf(code);
-        if (index > -1) {
-            configState.internalLaboratories.splice(index, 1);
-            this.save();
-            this.renderConfigUI();
-            UIModule.toast.success(`Laboratoire "${code}" supprimé`);
-        }
-    }
-},
+        removeLaboratory: function(code) {
+            if (confirm(`Supprimer le laboratoire "${code}" ?`)) {
+                const index = configState.internalLaboratories.indexOf(code);
+                if (index > -1) {
+                    configState.internalLaboratories.splice(index, 1);
+                    this.save();
+                    this.renderConfigUI();
+                    UIModule.toast.success(`Laboratoire "${code}" supprimé`);
+                }
+            }
+        },
+
         importConfig: function() {
             const input = document.createElement('input');
             input.type = 'file';
