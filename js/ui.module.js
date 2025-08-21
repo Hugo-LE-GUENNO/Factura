@@ -609,6 +609,24 @@ window.UIModule = (function() {
                     this.switchTab(firstTab.dataset.tab);
             },
 
+// =========================================
+    // NAVIGATION ET ONGLETS
+    // =========================================
+    const navigation = {
+        currentTab: null,
+        lastClickTime: null,
+        
+        initTabs: function() {
+            // Nouveau système d'événements plus robuste
+            this.setupTabNavigation();
+            
+            // Activer le premier onglet
+            const firstTab = document.querySelector('.tab-button');
+            if (firstTab) {
+                this.switchTab(firstTab.dataset.tab);
+            }
+        },
+
         setupTabNavigation: function() {
             // CSS pour les styles des onglets
             this.addTabStyles();
@@ -655,7 +673,7 @@ window.UIModule = (function() {
             // Changer d'onglet
             this.switchTab(tabName);
         },
-
+        
         switchTab: function(tabName) {
             if (!tabName) return;
             
@@ -758,6 +776,11 @@ window.UIModule = (function() {
             document.head.appendChild(style);
             console.log('🎨 Styles de navigation ajoutés');
         },
+        
+        getCurrentTab: function() {
+            return this.currentTab;
+        }
+    };
 
     // =========================================
     // LOADER GLOBAL
