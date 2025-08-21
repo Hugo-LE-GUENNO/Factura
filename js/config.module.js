@@ -952,7 +952,6 @@ window.ConfigModule = (function() {
                 }
             }
         },
-
         importConfig: function() {
             const input = document.createElement('input');
             input.type = 'file';
