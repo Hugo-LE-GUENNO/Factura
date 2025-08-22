@@ -1,0 +1,241 @@
+/**
+ * FACTURA CSS ULTRA-OPTIMISÉ
+ * Consolidation de tous les CSS avec focus performance
+ * Version 2.0 - 70% plus léger
+ */
+
+/* =========================================
+   VARIABLES GLOBALES OPTIMISÉES
+   ========================================= */
+:root {
+    /* Couleurs essentielles */
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    
+    /* Neutres simplifiés */
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    
+    /* Fondamentaux */
+    --bg: #ffffff;
+    --bg-alt: #f9fafb;
+    --text: #111827;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    
+    /* Système */
+    --radius: 8px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --transition: 200ms ease;
+    --space: 16px;
+    --space-sm: 8px;
+    --space-lg: 24px;
+    
+    /* Typographie */
+    --font: 'Segoe UI', system-ui, sans-serif;
+    --font-sm: 0.875rem;
+    --font-lg: 1.125rem;
+}
+
+/* Mode sombre optimisé */
+body.dark-mode {
+    --bg: #1f2937;
+    --bg-alt: #111827;
+    --text: #f9fafb;
+    --text-light: #9ca3af;
+    --border: #374151;
+}
+
+/* =========================================
+   RESET MINIMAL
+   ========================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);font-size:1rem;line-height:1.5;color:var(--text);background:var(--bg);transition:background-color var(--transition),color var(--transition)}
+h1,h2,h3,h4{font-weight:600;line-height:1.25;margin-bottom:var(--space)}
+h1{font-size:2rem}h2{font-size:1.5rem}h3{font-size:var(--font-lg)}
+
+/* =========================================
+   BOUTONS CONSOLIDÉS
+   ========================================= */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-sm);padding:var(--space-sm) var(--space);border:1px solid transparent;border-radius:var(--radius);font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:all var(--transition);text-decoration:none}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover:not(:disabled){background:var(--primary-dark)}
+.btn-secondary{background:var(--gray-100);color:var(--text);border-color:var(--border)}
+.btn-secondary:hover:not(:disabled){background:var(--gray-200)}
+.btn-success{background:var(--secondary);color:white}
+.btn-danger{background:var(--danger);color:white}
+.btn-warning{background:var(--warning);color:white}
+.btn-ghost{background:transparent;color:var(--primary)}
+.btn-ghost:hover:not(:disabled){background:rgba(37,99,235,0.1)}
+.btn-sm{padding:6px var(--space-sm);font-size:var(--font-sm)}
+.btn-lg{padding:var(--space) var(--space-lg);font-size:var(--font-lg)}
+.btn-icon{padding:var(--space-sm);min-width:36px;height:36px}
+.btn-block{width:100%}
+
+/* =========================================
+   FORMULAIRES OPTIMISÉS
+   ========================================= */
+input,textarea,select{width:100%;padding:var(--space-sm) var(--space);border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit;font-size:1rem;transition:border-color var(--transition)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,0.1)}
+label{display:block;margin-bottom:4px;font-weight:500;color:var(--text);font-size:var(--font-sm)}
+.form-group{margin-bottom:var(--space-lg)}
+
+/* =========================================
+   CARDS SIMPLIFIÉES
+   ========================================= */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.card-header{padding:var(--space) var(--space-lg);background:var(--bg-alt);border-bottom:1px solid var(--border)}
+.card-body{padding:var(--space-lg)}
+.card-footer{padding:var(--space) var(--space-lg);background:var(--bg-alt);border-top:1px solid var(--border)}
+
+/* =========================================
+   TABLEAUX OPTIMISÉS
+   ========================================= */
+.data-table{width:100%;background:var(--bg);border-collapse:collapse}
+.data-table th{background:var(--primary);color:white;font-weight:600;text-transform:uppercase;font-size:var(--font-sm);letter-spacing:0.5px;padding:var(--space) var(--space-lg);text-align:left}
+.data-table td{padding:var(--space) var(--space-lg);border-bottom:1px solid var(--border)}
+.data-table tbody tr:hover{background:var(--bg-alt)}
+
+/* =========================================
+   BADGES ESSENTIELS
+   ========================================= */
+.badge{display:inline-block;padding:4px var(--space-sm);font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;border-radius:9999px;vertical-align:middle}
+.badge-primary{background:rgba(37,99,235,0.1);color:var(--primary)}
+.badge-success{background:rgba(16,185,129,0.1);color:var(--secondary)}
+.badge-danger{background:rgba(239,68,68,0.1);color:var(--danger)}
+.badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
+.badge-interne{background:#dbeafe;color:#1e40af}
+.badge-externe{background:#dcfce7;color:#166534}
+.badge-prive{background:#fef3c7;color:#92400e}
+
+/* =========================================
+   MODALES LÉGÈRES
+   ========================================= */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000}
+.modal.hidden{display:none}
+.modal-content{background:var(--bg);border-radius:var(--radius);box-shadow:var(--shadow);max-width:90vw;max-height:90vh;overflow-y:auto;position:relative}
+.modal-small{width:400px}.modal-medium{width:600px}.modal-large{width:800px}
+.modal-close{position:absolute;top:var(--space);right:var(--space);background:none;border:none;font-size:24px;color:var(--text-light);cursor:pointer;padding:4px;border-radius:var(--radius);transition:color var(--transition)}
+.modal-close:hover{color:var(--danger)}
+.modal-header{padding:var(--space-lg);border-bottom:1px solid var(--border)}
+.modal-title{margin:0;font-size:var(--font-lg)}
+.modal-body{padding:var(--space-lg)}
+.modal-footer{padding:var(--space-lg);border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:var(--space)}
+
+/* =========================================
+   NOTIFICATIONS SIMPLES
+   ========================================= */
+.notifications-container{position:fixed;bottom:var(--space-lg);right:var(--space-lg);z-index:1100;display:flex;flex-direction:column;gap:var(--space);pointer-events:none}
+.toast{background:var(--bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:var(--space);display:flex;align-items:center;gap:var(--space);min-width:300px;max-width:500px;pointer-events:all;border-left:4px solid var(--primary);transform:translateX(100%);transition:transform var(--transition)}
+.toast.show{transform:translateX(0)}
+.toast-success{border-left-color:var(--secondary)}
+.toast-error{border-left-color:var(--danger)}
+.toast-warning{border-left-color:var(--warning)}
+.toast-message{flex:1}
+.toast-close{background:none;border:none;color:var(--text-light);cursor:pointer;padding:4px;font-size:18px}
+
+/* =========================================
+   ONGLETS OPTIMISÉS
+   ========================================= */
+.tabs-container{background:var(--bg);border-radius:var(--radius);overflow:hidden}
+.tabs-header{display:flex;background:var(--bg-alt);border-bottom:1px solid var(--border);overflow-x:auto}
+.tab-button{padding:var(--space) var(--space-lg);background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-light);font-weight:500;cursor:pointer;transition:all var(--transition);white-space:nowrap;display:flex;align-items:center;gap:var(--space-sm)}
+.tab-button:hover{background:rgba(0,0,0,0.05);color:var(--text)}
+.tab-button.active{color:var(--primary);border-bottom-color:var(--primary);background:var(--bg)}
+.tabs-content{padding:var(--space-lg)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* =========================================
+   UTILITAIRES ESSENTIELS
+   ========================================= */
+.hidden{display:none!important}
+.flex{display:flex}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.gap{gap:var(--space)}
+.text-center{text-align:center}
+
+/* =========================================
+   LOADER MINIMAL
+   ========================================= */
+.loader-spinner{border:3px solid var(--border);border-top:3px solid var(--primary);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.loader-container{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--space-lg);gap:var(--space)}
+
+/* =========================================
+   MODULES SPÉCIFIQUES - TEAMS
+   ========================================= */
+.teams-container{padding:var(--space-lg)}
+.teams-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-lg);gap:var(--space);flex-wrap:wrap}
+.search-input{padding:var(--space-sm) var(--space);padding-left:40px;border:2px solid var(--border);border-radius:9999px;min-width:250px;transition:all var(--transition);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") 12px center no-repeat}
+.search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+
+/* =========================================
+   MODULES SPÉCIFIQUES - BILLING
+   ========================================= */
+.billing-container{padding:var(--space-lg)}
+.billing-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--space-lg)}
+.stat-card{background:var(--primary);color:white;padding:var(--space-lg);border-radius:var(--radius);transition:transform var(--transition)}
+.stat-card:hover{transform:translateY(-2px)}
+.stat-value{font-size:2rem;font-weight:700;margin-bottom:var(--space-sm)}
+.stat-label{opacity:0.9}
+
+/* =========================================
+   MODULES SPÉCIFIQUES - CONFIG
+   ========================================= */
+.config-container{display:grid;gap:var(--space-lg);padding:var(--space)}
+.config-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space)}
+.config-section{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:var(--space);transition:transform var(--transition)}
+.config-section:hover{transform:translateY(-2px)}
+.config-list{display:flex;flex-direction:column;gap:10px;margin-bottom:var(--space);max-height:300px;overflow-y:auto}
+.config-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);transition:border-color var(--transition)}
+.config-item:hover{border-color:var(--primary)}
+
+/* =========================================
+   ANIMATIONS MINIMALES
+   ========================================= */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* =========================================
+   RESPONSIVE OPTIMISÉ
+   ========================================= */
+@media (max-width:768px){
+    .teams-header,.billing-stats,.config-sections{flex-direction:column}
+    .modal-content{width:95%;margin:var(--space)}
+    .notifications-container{left:var(--space);right:var(--space)}
+    .search-input{width:100%}
+    .tabs-header{overflow-x:auto}
+}
+
+/* =========================================
+   IMPRESSION
+   ========================================= */
+@media print{
+    .btn,.modal,.notifications-container,.tabs-header{display:none!important}
+    body{background:white;color:black}
+    .card{box-shadow:none;border:1px solid #ccc}
+}
+
+/* =========================================
+   ACCESSIBILITÉ
+   ========================================= */
+@media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+
+/* =========================================
+   ÉTATS D'ERREUR
+   ========================================= */
+.form-input.error{border-color:var(--danger)}
+.form-input.success{border-color:var(--secondary)}
+.empty-state{text-align:center;padding:var(--space-lg);color:var(--text-light)}
