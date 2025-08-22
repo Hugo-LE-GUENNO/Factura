@@ -146,18 +146,64 @@ window.App = (function() {
     // GESTION DES VUES SIMPLIFIÉE
     // =========================================
     const views = {
+        // Dans app.js, dans l'objet views, ajouter cette fonction :
+        renderStartup() {
+            const container = document.getElementById('startup-container');
+            if (!container) return;
+            
+            const project = localStorage.getItem('billing_projectInfo');
+            const projectInfo = project ? JSON.parse(project) : null;
+            
+            container.innerHTML = `
+                <div class="startup-content">
+                    <div class="startup-header">
+                        <h1>📊 Interface de Facturation</h1>
+                        <p>Gestion de la facturation et des équipes</p>
+                    </div>
+                    
+                    <div class="startup-form">
+                        <div class="form-group">
+                            <label for="projectTitle">Nom du projet *</label>
+                            <input type="text" id="projectTitle" 
+                                placeholder="Ex: Facturation Q1 2025" 
+                                value="${projectInfo?.title || ''}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Période de facturation</label>
+                            <div class="date-range">
+                                <input type="date" id="startDate" value="${projectInfo?.startDate || ''}">
+                                <span>→</span>
+                                <input type="date" id="endDate" value="${projectInfo?.endDate || ''}">
+                            </div>
+                        </div>
+                        
+                        <div class="startup-actions">
+                            <button class="btn btn-primary btn-lg" onclick="App.startProject()">
+                                🚀 Nouveau Projet
+                            </button>
+                            <button class="btn btn-secondary" onclick="App.loadProject()">
+                                📂 Charger Projet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        },
+
+        // Et modifier showStartup() pour appeler renderStartup() :
         showStartup() {
-
             document.getElementById('app-container').classList.remove('hidden');
-
+            
             const startup = document.getElementById('startup-screen');
             const main = document.getElementById('main-interface');
             
             if (startup) startup.style.display = 'flex';
             if (main) main.classList.add('hidden');
             
+            this.renderStartup(); // AJOUTER CETTE LIGNE
             appState.currentView = 'startup';
-        },
+        }
 
         showMain() {
             document.getElementById('app-container').classList.remove('hidden');
