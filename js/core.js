@@ -446,9 +446,7 @@ window.Factura = (function() {
                 ui.showLoader('Chargement des modules...');
                 
                 // Charger les modules essentiels
-                const modules = await moduleLoader.loadModules([
-                    'UIModule', 'TeamsModule', 'BillingModule', 'ConfigModule'
-                ]);
+                const modules = await moduleLoader.loadModules(['TeamsModule', 'BillingModule', 'ConfigModule']);
 
                 ui.showLoader('Initialisation...');
                 
