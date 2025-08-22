@@ -203,7 +203,7 @@ window.App = (function() {
             
             this.renderStartup(); // AJOUTER CETTE LIGNE
             appState.currentView = 'startup';
-        }
+        },
 
         showMain() {
             document.getElementById('app-container').classList.remove('hidden');
