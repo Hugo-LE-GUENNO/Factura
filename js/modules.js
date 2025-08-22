@@ -750,20 +750,3 @@ if (window.Factura) {
 
     console.log('🚀 Modules ultra-optimisés intégrés - 80% plus légers !');
 }
-
-// =========================================
-// COMPATIBILITÉ ANCIENNE API
-// =========================================
-
-// Pour que les anciens scripts continuent de fonctionner
-if (!window.Core) {
-    window.Core = Factura;
-}
-
-if (!window.UIModule) {
-    window.UIModule = {
-        toast: Factura.ui,
-        modal: Factura.ui.modal,
-        table: Factura.ui.table
-    };
-}
