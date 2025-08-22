@@ -11,6 +11,7 @@ window.App = (function() {
         initialized: false
     };
 
+    
     // =========================================
     // UI HELPERS COMPATIBLES
     // =========================================
@@ -146,6 +147,9 @@ window.App = (function() {
     // =========================================
     const views = {
         showStartup() {
+
+            document.getElementById('app-container').classList.remove('hidden');
+
             const startup = document.getElementById('startup-screen');
             const main = document.getElementById('main-interface');
             
@@ -156,6 +160,7 @@ window.App = (function() {
         },
 
         showMain() {
+            document.getElementById('app-container').classList.remove('hidden');
             const startup = document.getElementById('startup-screen');
             const main = document.getElementById('main-interface');
             const header = document.getElementById('global-header');
