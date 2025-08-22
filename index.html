@@ -215,19 +215,13 @@
     <!-- SCRIPTS MODULAIRES             -->
     <!-- ============================== -->
     
-    <!-- 1. Init doit être chargé EN PREMIER -->
-    <script src="js/init.js" onerror="debugLog('Erreur chargement init.js', 'error')"></script>
-    
     <!-- 2. Core est requis par tous les autres -->
     <script src="js/core.js" onerror="debugLog('Erreur chargement core.js', 'error')"></script>
     
-    <!-- 3. UI Module avant les autres modules -->
-    <script src="js/ui.module.js" onerror="debugLog('Erreur chargement ui.module.js', 'error')"></script>
-    
     <!-- 4. Modules métier -->
     <script src="js/config.module.js" onerror="debugLog('Erreur chargement config.module.js', 'error')"></script>
-    <script src="js/teams.module.js" onerror="debugLog('Erreur chargement teams.module.js', 'error')"></script>
-    <script src="js/billing.module.js" onerror="debugLog('Erreur chargement billing.module.js', 'error')"></script>
+    <script src="js/modules.js" onerror="debugLog('Erreur chargement modules.js', 'error')"></script>
+
     
     <!-- 5. App en dernier (orchestrateur) -->
     <script src="js/app.js" onerror="debugLog('Erreur chargement app.js', 'error')"></script>
