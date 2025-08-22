@@ -151,14 +151,28 @@ window.App = (function() {
             const container = document.getElementById('startup-container');
             if (!container) return;
             
-            const project = localStorage.getItem('billing_projectInfo');
-            const projectInfo = project ? JSON.parse(project) : null;
+            // Vérifier s'il y a un projet existant
+            const projectData = localStorage.getItem('billing_projectInfo');
+            const teamsData = localStorage.getItem('billing_teams');
+            const projectInfo = projectData ? JSON.parse(projectData) : null;
+            const teams = teamsData ? JSON.parse(teamsData) : [];
+            
+            // Déterminer s'il y a un projet en cours
+            const hasExistingProject = projectInfo && (projectInfo.title || teams.length > 0);
             
             container.innerHTML = `
                 <div class="startup-content">
                     <div class="startup-header">
                         <h1>📊 Interface de Facturation</h1>
                         <p>Gestion de la facturation et des équipes</p>
+                        ${hasExistingProject ? `
+                            <div class="existing-project-info" style="margin: 20px 0; padding: 15px; background: rgba(37, 99, 235, 0.1); border-radius: 8px; border-left: 4px solid #2563eb;">
+                                <h3 style="margin: 0 0 10px 0; color: #2563eb;">📋 Projet existant détecté</h3>
+                                <p style="margin: 5px 0;"><strong>Titre:</strong> ${projectInfo?.title || 'Sans titre'}</p>
+                                ${projectInfo?.startDate ? `<p style="margin: 5px 0;"><strong>Période:</strong> ${projectInfo.startDate} → ${projectInfo.endDate || 'En cours'}</p>` : ''}
+                                <p style="margin: 5px 0;"><strong>Équipes:</strong> ${teams.length} équipe(s) enregistrée(s)</p>
+                            </div>
+                        ` : ''}
                     </div>
                     
                     <div class="startup-form">
@@ -166,31 +180,103 @@ window.App = (function() {
                             <label for="projectTitle">Nom du projet *</label>
                             <input type="text" id="projectTitle" 
                                 placeholder="Ex: Facturation Q1 2025" 
-                                value="${projectInfo?.title || ''}" required>
+                                value="${!hasExistingProject ? (projectInfo?.title || '') : ''}" 
+                                ${hasExistingProject ? '' : 'required'}>
+                            ${hasExistingProject ? '<small style="color: #6b7280;">Laissez vide pour créer un nouveau projet</small>' : ''}
                         </div>
                         
-                        <div class="form-group">
-                            <label>Période de facturation</label>
-                            <div class="date-range">
-                                <input type="date" id="startDate" value="${projectInfo?.startDate || ''}">
-                                <span>→</span>
-                                <input type="date" id="endDate" value="${projectInfo?.endDate || ''}">
+                        ${!hasExistingProject ? `
+                            <div class="form-group">
+                                <label>Période de facturation</label>
+                                <div class="date-range" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="date" id="startDate" value="${projectInfo?.startDate || ''}" style="padding: 10px;">
+                                    <span>→</span>
+                                    <input type="date" id="endDate" value="${projectInfo?.endDate || ''}" style="padding: 10px;">
+                                </div>
                             </div>
+                        ` : ''}
+                        
+                        <div class="startup-actions" style="display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap;">
+                            ${hasExistingProject ? `
+                                <button class="btn btn-success btn-lg" onclick="App.continueExistingProject()" 
+                                        style="padding: 15px 25px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                                    ▶️ Continuer "${projectInfo?.title || 'Projet en cours'}"
+                                </button>
+                            ` : ''}
+                            
+                            <button class="btn btn-primary btn-lg" onclick="App.startProject()" 
+                                    style="padding: 15px 25px; background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                                🚀 ${hasExistingProject ? 'Nouveau Projet' : 'Démarrer Projet'}
+                            </button>
+                            
+                            <button class="btn btn-secondary" onclick="App.loadProject()"
+                                    style="padding: 15px 25px; background: #6b7280; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                                📂 Charger Fichier
+                            </button>
+                            
+                            ${hasExistingProject ? `
+                                <button class="btn btn-warning" onclick="App.resetProject()"
+                                        style="padding: 10px 20px; background: #f59e0b; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                    🗑️ Tout Supprimer
+                                </button>
+                            ` : ''}
                         </div>
                         
-                        <div class="startup-actions">
-                            <button class="btn btn-primary btn-lg" onclick="App.startProject()">
-                                🚀 Nouveau Projet
-                            </button>
-                            <button class="btn btn-secondary" onclick="App.loadProject()">
-                                📂 Charger Projet
-                            </button>
-                        </div>
+                        ${hasExistingProject ? `
+                            <div style="text-align: center; margin-top: 20px;">
+                                <details style="color: #6b7280; font-size: 14px;">
+                                    <summary style="cursor: pointer; margin-bottom: 10px;">📊 Aperçu des données existantes</summary>
+                                    <div style="text-align: left; background: #f9fafb; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                                        <p><strong>Équipes enregistrées (${teams.length}):</strong></p>
+                                        ${teams.length > 0 ? `
+                                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                                ${teams.slice(0, 5).map(team => `<li>${team.name} (${team.clientType || 'Type non défini'})</li>`).join('')}
+                                                ${teams.length > 5 ? `<li><em>... et ${teams.length - 5} autres</em></li>` : ''}
+                                            </ul>
+                                        ` : '<p style="font-style: italic; color: #9ca3af;">Aucune équipe enregistrée</p>'}
+                                    </div>
+                                </details>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `;
+            
+            // Auto-remplir les dates si nouveau projet
+            if (!hasExistingProject && !projectInfo?.startDate) {
+                const today = new Date();
+                const startOfYear = new Date(today.getFullYear(), 0, 1);
+                
+                const startDateEl = document.getElementById('startDate');
+                const endDateEl = document.getElementById('endDate');
+                
+                if (startDateEl) startDateEl.value = startOfYear.toISOString().split('T')[0];
+                if (endDateEl) endDateEl.value = today.toISOString().split('T')[0];
+            }
         },
 
+        // AJOUTER AUSSI ces nouvelles fonctions dans l'objet actions :
+
+        continueExistingProject() {
+            // Continuer avec le projet existant sans rien changer
+            views.showMain();
+            ui.toast('Projet existant restauré', 'success');
+        },
+
+        resetProject() {
+            if (confirm('⚠️ Êtes-vous sûr de vouloir supprimer TOUTES les données ?\n\nCette action est irréversible !')) {
+                // Supprimer toutes les données
+                localStorage.removeItem('billing_projectInfo');
+                localStorage.removeItem('billing_teams');
+                localStorage.removeItem('billing_config');
+                localStorage.removeItem('billing_invoices');
+                localStorage.removeItem('billing_state');
+                
+                // Recharger la page pour repartir à zéro
+                ui.toast('Toutes les données supprimées', 'info');
+                setTimeout(() => location.reload(), 1000);
+            }
+        },
         // Et modifier showStartup() pour appeler renderStartup() :
         showStartup() {
             document.getElementById('app-container').classList.remove('hidden');
