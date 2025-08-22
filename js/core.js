@@ -362,16 +362,16 @@ window.Factura = (function() {
                 loader = document.createElement('div');
                 loader.id = 'app-loader';
                 loader.className = 'app-loader';
-                loader.innerHTML = `
-                    <div class="loader-container">
-                        <div class="loader-spinner"></div>
-                        <p class="loader-text">${message}</p>
-                    </div>
-                `;
                 document.body.appendChild(loader);
-            } else {
-                loader.querySelector('.loader-text').textContent = message;
             }
+            
+            // Toujours recréer le contenu pour éviter les erreurs
+            loader.innerHTML = `
+                <div class="loader-content">
+                    <div class="loader-spinner"></div>
+                    <p class="loader-text">${message}</p>
+                </div>
+            `;
             loader.style.display = 'flex';
         },
 
